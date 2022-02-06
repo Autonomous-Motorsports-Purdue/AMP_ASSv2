@@ -1,0 +1,8 @@
+prefix=/rewrite/install
+
+Name: nav_frames
+Description: Description of nav_frames
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

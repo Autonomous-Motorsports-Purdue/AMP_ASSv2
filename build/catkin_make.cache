@@ -1,0 +1,2 @@
+env_sim:mover:slam_mode_goal
+-DCATKIN_DEVEL_PREFIX=/rewrite/devel -DCMAKE_INSTALL_PREFIX=/rewrite/install -G Unix Makefiles
