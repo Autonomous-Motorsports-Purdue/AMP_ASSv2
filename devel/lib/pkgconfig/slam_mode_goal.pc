@@ -1,8 +1,0 @@
-prefix=/rewrite/devel
-
-Name: slam_mode_goal
-Description: Description of slam_mode_goal
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
