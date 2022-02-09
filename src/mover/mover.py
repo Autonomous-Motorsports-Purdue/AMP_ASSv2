@@ -37,8 +37,7 @@ def callback(goal):
 
   message = Twist()
   message.linear.x = delta_x;
-  message.angular.z = delta_y; 
-
+  message.angular.z = delta_r; 
 
 
   pub.publish(message)
