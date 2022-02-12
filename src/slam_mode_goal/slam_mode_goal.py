@@ -188,7 +188,7 @@ def weighted_resultant_vector(laserscan):
   # Iterate through left half of the lazerscans and grab corresponding
   # right lazerscan for each left one.
   theta_tot = 0
-  for i in range(len(ranges) / 2):
+  for i in range(len(ranges) // 2):
     l_dist = ranges[i]
     l_ang = theta_arr[i]
     r_dist = ranges[-1 - i]
@@ -202,7 +202,7 @@ def weighted_resultant_vector(laserscan):
     # Add the theta of res vector
     theta_tot += math.atan(y / x)
 
-  theta = theta_tot / (len(ranges) / 2)
+  theta = theta_tot / (len(ranges) // 2)
 
   # If the vector (x_pos, y_pos) is too close to a wall, then 
   # decrease magnitude of vector and give more weight to the y position.
@@ -211,7 +211,7 @@ def weighted_resultant_vector(laserscan):
 
   ## Experimentally determining this based on simulation. Will want to get do this more thoroughly later
   thresh_dist = 2.1 * KART_LENGTH
-  front_dist_from_wall = ranges[len(ranges) / 2] - KART_LENGTH
+  front_dist_from_wall = ranges[len(ranges) // 2] - KART_LENGTH
 
   if front_dist_from_wall < thresh_dist:
     x_pos *= 0.35
