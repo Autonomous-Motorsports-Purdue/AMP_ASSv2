@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """This node is respondible for goal setting and sending those goals to the ROS Navigation Stack.
 
