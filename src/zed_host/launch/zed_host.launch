@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="svo_file"             default="" /> <!-- <arg name="svo_file" default="path/to/svo/file.svo"> -->
+    <arg name="stream"               default="" /> <!-- <arg name="stream" default="<ip_address>:<port>"> -->
+
+    <arg name="zed_node_name"        default="zed_node" />
+    <arg name="camera_model"         default="zed2" />
+    <arg name="publish_urdf"         default="true" />
+
+    <arg name="camera_name"          default="zed" />
+
+    <arg name="base_frame"           default="base_link" />
+
+    <group ns="$(arg camera_name)">
+        <!-- ZED Wrapper Node-->
+        <include file="$(find zed_wrapper)/launch/include/zed_camera.launch.xml">
+            <arg name="camera_name"         value="$(arg camera_name)" />
+            <arg name="svo_file"            value="$(arg svo_file)" />
+            <arg name="stream"              value="$(arg stream)" />
+            <arg name="node_name"           value="$(arg zed_node_name)" />
+            <arg name="camera_model"        value="$(arg camera_model)" />
+            <arg name="base_frame"          value="$(arg base_frame)" />
+            <arg name="publish_urdf"        value="$(arg publish_urdf)" />
+        </include>
+
+        <!-- Rviz -->
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find zed_host)/rviz/zed_preview.rviz" output="screen" /> 
+    </group>
+
+</launch>
