@@ -4,8 +4,9 @@ fi
 
 if [ "$1" -eq 0 ]; then
     echo "These are the options:"
-    echo "  - 0: Intel graphics"
-    echo "  - 1: Nvidia graphics"
+    echo "  - 1: Intel graphics"
+    echo "  - 2: Nvidia graphics"
+    echo "  - X 0: Build and run on 'X' graphics"
 elif [ "$1" -eq 1 ]; then # Intel graphics
     DOCKER_ARGS="-it --rm --net=host \
         --env="DISPLAY=$DISPLAY" \
