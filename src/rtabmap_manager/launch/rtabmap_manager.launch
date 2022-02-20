@@ -7,7 +7,6 @@
     <arg name="rgb_topic"               default="$(arg depth_cam_node)/rgb/image_rect_color" />
     <arg name="depth_topic"             default="$(arg depth_cam_node)/depth/depth_registered" />
     <arg name="camera_info_topic"       default="$(arg depth_cam_node)/rgb/camera_info" />
-    <arg name="depth_camera_info_topic" default="$(arg depth_cam_node)/depth/camera_info" />
     
     <!-- Localization-only mode -->
     <arg name="localization" default="false"/>
