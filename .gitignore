@@ -1,3 +1,4 @@
-build
-devel
-
+build/
+devel/
+__pycache__/
+AMP_CLI.egg-info/

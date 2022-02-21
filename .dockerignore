@@ -1,5 +1,7 @@
 build/
 docker/
+__pycache__/
+AMP_CLI.egg-info/
 *.md
 amd64-docker.sh
 .dockerignore
