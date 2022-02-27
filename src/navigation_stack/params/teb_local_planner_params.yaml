@@ -4,7 +4,7 @@
 # TODO(Issue 25): Ensure these params work for both simulation and match the 
 #                 kart's physical params.
 TebLocalPlannerROS:
-  odom_topic: "odom"
+  odom_topic: "/sim_stage/odom"
 
   # Trajectory
   teb_autosize: True

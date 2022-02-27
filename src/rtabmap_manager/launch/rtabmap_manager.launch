@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="depth_cam_node"        default="/zed/zed_node" />
+    <arg name="depth_cam_node"    default="/zed/zed_node" />
 
     <!-- RGB-D related topics -->
-    <arg name="odom_topic"              default="$(arg depth_cam_node)/odom" />
-    <arg name="rgb_topic"               default="$(arg depth_cam_node)/rgb/image_rect_color" />
-    <arg name="depth_topic"             default="$(arg depth_cam_node)/depth/depth_registered" />
-    <arg name="camera_info_topic"       default="$(arg depth_cam_node)/rgb/camera_info" />
+    <arg name="odom_topic"        default="$(arg depth_cam_node)/odom" />
+    <arg name="map_topic"         default="$(arg depth_cam_node)/map" />
+    <arg name="rgb_topic"         default="$(arg depth_cam_node)/rgb/image_rect_color" />
+    <arg name="depth_topic"       default="$(arg depth_cam_node)/depth/depth_registered" />
+    <arg name="camera_info_topic" default="$(arg depth_cam_node)/rgb/camera_info" />
     
     <!-- Localization-only mode -->
     <arg name="localization" default="false"/>
@@ -22,7 +23,7 @@
             <remap from="depth/image"       to="$(arg depth_topic)"/>
             <remap from="rgb/camera_info"   to="$(arg camera_info_topic)"/>
 
-            <remap from="grid_map"          to="map" />
+            <remap from="grid_map"          to="$(arg map_topic)" />
             <remap from="odom"              to="$(arg odom_topic)"/>
 
             <!-- localization mode -->
@@ -37,7 +38,7 @@
             <remap from="depth/image"       to="$(arg depth_topic)"/>
             <remap from="rgb/camera_info"   to="$(arg camera_info_topic)"/>
 
-            <remap from="grid_map"          to="map" />
+            <remap from="grid_map"          to="$(arg map_topic)" />
             <remap from="odom"              to="$(arg odom_topic)"/>
         </node>
     </group>
