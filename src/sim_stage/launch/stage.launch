@@ -64,4 +64,8 @@
 	<!-- TODO(Issue 7): Migrate from AMP_v1. -->
   <!-- <node pkg="ti_comm" type="ti_comm_node" name="ti_comm_node" output="screen" /> -->
 
+  <!-- Launch rviz with the configuration file in order to visualize incoming data -->
+  <node name="rviz" pkg="rviz" type="rviz" 
+        args="-d $(find sim_stage)/sim_files/track_rviz.rviz" />
+
 </launch>
