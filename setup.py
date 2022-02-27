@@ -6,6 +6,9 @@ setup(
     py_modules=['amp_cli'],
     install_requires=[
         'click',
+        'docker',
+        'os',
+        'subprocess',
     ],
     entry_points={
         'console_scripts': [

@@ -1,10 +1,10 @@
-build/
-docker/
-__pycache__/
 AMP_CLI.egg-info/
-*.md
-amd64-docker.sh
+amp_cli.py
+docker/
 .dockerignore
+.git/
 .github/
 .gitignore
-.git/
+__pycache__/
+README.md
+setup.py
