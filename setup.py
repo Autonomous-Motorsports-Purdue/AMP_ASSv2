@@ -7,8 +7,7 @@ setup(
     install_requires=[
         'click',
         'docker',
-        'os',
-        'subprocess',
+        'wheel',
     ],
     entry_points={
         'console_scripts': [

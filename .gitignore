@@ -1,5 +1,10 @@
+# ROS build directories
 build/
 devel/
+
+# AMP-CLI files
 __pycache__/
 AMP_CLI.egg-info/
+
+# Catkin ignore files
 CATKIN_IGNORE

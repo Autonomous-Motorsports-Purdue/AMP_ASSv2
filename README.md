@@ -19,17 +19,8 @@ slam\_mode\_goal is intended to put out high-level, ideal cart commands that are
 Takes MoveBaseGoal and converts them to cmd_vel to the simulated kart
 
 # Running 
-* Show available options help
+* To build the amp-cli tool, run:
 ```
-. amd64-docker.sh 0
+pip install .
 ```
-
-To build the docker image, have a second argument behind the number.
-* Run intel graphics docker
-```
-. amd64-docker.sh 1
-```
-* Run nvidia graphics docker
-```
-. amd64-docker.sh 2
-```
+* Run `amp-cli` to view the available options.
