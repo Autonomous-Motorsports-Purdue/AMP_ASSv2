@@ -8,9 +8,7 @@
 
 ## Check lists (check x in [ ] of list items)
 For each of these items, please refer to the [software style guide](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/wiki/Software-Style-Guide)
-- [ ] Test written/updated
-- [ ] Tests passing
+- [ ] Test written/updated and implemented to CI
 - [ ] Logging (where appropriate)
-- [ ] Coding style
 
 ## Any additional comments?
