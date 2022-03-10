@@ -1,4 +1,5 @@
 # AMP Autonomous Software Stack v2
+[![AMP-CLI CI](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/cli.yml/badge.svg)](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/cli.yml)     [![AMP_ASSv2 CI](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/ci.yml/badge.svg)](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/ci.yml)
 
 Second iteration of the Autonomous Software Stack (ASS) for the AMP go-kart.
 
@@ -21,6 +22,7 @@ Takes MoveBaseGoal and converts them to cmd_vel to the simulated kart
 # Running 
 * To build the amp-cli tool, run:
 ```
-pip install .
+sudo pip install .
 ```
+
 * Run `amp-cli` to view the available options.

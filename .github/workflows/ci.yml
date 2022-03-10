@@ -1,0 +1,38 @@
+name: AMP_ASSv2 CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+    name: build
+    runs-on: ubuntu-latest
+    env:
+      DESKTOP_DOCKER: ./docker/desktop.Dockerfile
+      DESKTOP_TAG: amp-devel:noetic-desktop
+      FRAME_DOCKER: ./docker/frame.Dockerfile
+      FRAME_TAG: amp-devel:frame-desktop
+      MESA_DOCKER: ./docker/mesa.Dockerfile
+      MESA_TAG: amp-devel:mesa-desktop
+    steps:
+      - 
+        name: Check Out Repo
+        uses: actions/checkout@v2
+      - 
+        name: Disable zed
+        run: ./disable_zed.sh
+      - 
+        name: Build noetic-desktop
+        run: docker build --file $DESKTOP_DOCKER --tag $DESKTOP_TAG .
+      - 
+        name: Build frame-desktop
+        run: docker build --file $FRAME_DOCKER --tag $FRAME_TAG .
+      - 
+        name: Build mesa-build
+        run: docker build --file $MESA_DOCKER --tag $MESA_TAG .
