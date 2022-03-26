@@ -1,0 +1,22 @@
+name: AMP-CLI CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - 
+        name: Check Out Repo
+        uses: actions/checkout@v2
+      - 
+        name: Build amp-cli
+        run: pip install .

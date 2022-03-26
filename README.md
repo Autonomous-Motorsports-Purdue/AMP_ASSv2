@@ -1,5 +1,7 @@
 # AMP Autonomous Software Stack v2
-The second iteration of the Autonomous Software Stack (ASS) for the AMP go-kart.
+[![AMP-CLI CI](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/cli.yml/badge.svg)](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/cli.yml)     [![AMP_ASSv2 CI](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/ci.yml/badge.svg)](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/ci.yml)
+
+Second iteration of the Autonomous Software Stack (ASS) for the AMP go-kart.
 
 # Design
 Our software stack uses the [ROS 2d navigation package](http://wiki.ros.org/navigation) to obtain control information given sensor and odometry sources, a map, a [tf](http://wiki.ros.org/tf) transform tree, a node to publish the desired kart position (i.e. goal setting), and a set of configurations for the naviagtion stack's global and local planners and costmaps.
@@ -19,6 +21,7 @@ slam\_mode\_goal is intended to put out high-level, ideal cart commands that are
 # Running 
 * To build the amp-cli tool, run:
 ```
-pip install .
+sudo pip install .
 ```
+
 * Run `amp-cli` to view the available options.
