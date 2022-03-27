@@ -97,7 +97,9 @@ def devel(build: bool, display: str):
         click.echo('Use [<Ctrl> + D] to stop and exit the container.')
         click.secho(
             f'Entering container {container.name}:{container.short_id}.', fg='blue')
+        subprocess.run(['bash', '-c', 'xhost +local:docker'])
         subprocess.run(['bash', '-c', f'docker attach {container.id}'])
+        subprocess.run(['bash', '-c', 'xhost -local:docker'])
         click.secho('Successfully exited and stopped container.', fg='green')
     except docker.errors.ImageNotFound:
         raise click.ClickException(
@@ -195,7 +197,9 @@ def scratch(build: bool, display: str):
         click.echo('Use [<Ctrl> + D] to stop and exit the container.')
         click.secho(
             f'Entering container {container.name}:{container.short_id}.', fg='blue')
+        subprocess.run(['bash', '-c', 'xhost +local:docker'])
         subprocess.run(['bash', '-c', f'docker attach {container.id}'])
+        subprocess.run(['bash', '-c', 'xhost -local:docker'])
         click.secho('Successfully exited and stopped container.', fg='green')
 
     except docker.errors.ImageNotFound:
