@@ -2,9 +2,13 @@
 build/
 devel/
 
+# Devel directory
+amp-devel/
+
 # AMP-CLI files
-__pycache__/
-AMP_CLI.egg-info/
+*.egg-info
+__pycache__
+logs/
 
 # Catkin ignore files
 CATKIN_IGNORE

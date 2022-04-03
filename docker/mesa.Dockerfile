@@ -3,10 +3,12 @@ SHELL ["/bin/bash", "-c"]
 WORKDIR /amp_ws
 
 COPY src ./src
-COPY .catkin_workspace .
 
-RUN . /opt/ros/noetic/setup.bash && \
-    rosdep install --from-paths src -r -y && \
+RUN apt-get update && \
+    rosdep update && \
+    . /opt/ros/noetic/setup.bash && \
+    rosdep install --from-paths src -iry && \
+    rm -rf /var/lib/apt/list/* && \
     catkin_make
 RUN echo "source /amp_ws/devel/setup.bash" >> ~/.bashrc
 
