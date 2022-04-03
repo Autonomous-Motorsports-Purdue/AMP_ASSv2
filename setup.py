@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='AMP-CLI',
-    version='0.1',
+    version='0.2',
     py_modules=['amp_cli'],
     install_requires=[
         'click',
