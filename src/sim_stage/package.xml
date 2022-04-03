@@ -51,6 +51,10 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <depend>stage_ros</depend>
+  <depend>amcl</depend>
+  <depend>map_server</depend>
+  <depend>navigation_stack</depend>
+  <depend>slam_mode_goal</depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
