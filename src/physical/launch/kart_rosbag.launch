@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!-- Top-level launch file for testing with recorded ZED (zed_host pkg) bag files. -->
+
+<launch>
+  <!-- Force nodes to use /clock as time source as opposed to "wall-clock".
+
+    This is important so that when using this launch file with sensor data playing 
+    back through a rosbag (with the '- -clock' flag set on rosbag play command) 
+    to ensure the system time corresponds to the timestamps of the recorded 
+    sensor data. Learn more about the ROS Clock API here (http://wiki.ros.org/Clock) 
+  -->
+  <param name="/use_sim_time" value="true"/>
+
+  <!-- TF SETUP -->
+  <!-- Include the launch file that configures all static transforms for the kart -->
+  <include file="$(find static_tf_config)/launch/static_transforms_config.launch" />
+
+  <!-- SENSOR DRIVER INITIALIZATION -->
+  <!-- Calls the launch file for our LiDAR (VLP-16) to start outputting the 3D
+       pointcloud data on the associated topics (we care about /velodyne_points) -->
+  <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+
+  <!-- LASERSCAN SLICING -->
+  <!-- This node is responsible for taking the 3D point cloud published by 
+       Velodyne (/velodyne_points)  and publishing messages to a new topic 
+       (/top/scan) that contain one 2D slice of the 3D pointcloud. --> 
+  <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" 
+        name="pointcloud_to_laserscan"> 
+      <!-- Subscribe to topic /velodyne_points for pointcloud input. -->
+      <remap from="cloud_in" to="/velodyne_points" />
+      <!-- Publish to topic top/scan rather than default /scan so that we can 
+           distinguish from the 2D laserscan published by this node vs the default 
+           scan topic published by the velodyne topics. Always use top/scan because
+           we can modify the parameters to create the 2D scan where the Velodyne 
+           default /scan is fixed. -->
+      <remap from="scan" to="/top/scan" />
+      <rosparam file="$(find kart_2dnav)/params/pointcloud_to_laserscan_params.yaml" 
+                command="load" />
+  </node>
+
+  <!-- GOAL SETTING -->
+  <!-- Run the goal setting algorithm to navigate without a preliminary map (lap 1).
+    This node takes 2D laser scans (/top/scan) then constructs a goal message and 
+    creates an ActionClient to sends the goal as ROS actions to SimpleActionServer 
+    on move_base.
+	-->
+  <node pkg="slam_mode_goal" type="slam_mode_goal.py" name="slam_mode_goal" 
+        output="screen" />
+
+  <!-- SLAM: LOCALIZATION & MAPPING -->
+  <!-- Run the SLAM package, Rtabmap that takes in the color image from the zed node
+       (/zed/zed_node/left/image_rect_color topic) and outputs various topics
+       related to localization (rtabmap/??? topic) and mapping (rtabmap/map topic).
+  -->
+  <include file="$(find rtabmap_manager)/launch/rtabmap_manager.launch" />
+
+  <!-- ROS NAVIGATION STACK -->
+  <!-- Configure and run move_base to set up the ROS Navigation Stack.
+    More details on inputs/outputs can be found in move_base.launch -->
+  <include file="$(find navigation_stack)/launch/move_base.launch" />
+
+  <!-- MICROCONTROLLER COMM -->
+  <!-- Run the communication script to enable and start communicating with the 
+    microcontroller. This node subscribed to the /cmd_vel topic published by 
+    /move_base and then then sends packets containing the velocity and steering 
+    angle to the MCU over a serial connection. -->
+	<!-- TODO(Issue 7): Migrate from AMP_v1. -->
+  <!-- <node pkg="ti_comm" type="ti_comm_node" name="ti_comm_node" output="screen" /> -->
+
+  <!-- Launch rviz with the configuration file in order to visualize incoming data
+
+       Note: This should only be set when running the system with simulated 
+             sensor data (rosbags).
+  -->
+  <node name="rviz" pkg="rviz" type="rviz" 
+        args="-d $(find kart_2dnav)/params/kart_rviz.rviz" />
+</launch>
