@@ -231,12 +231,11 @@ def callback(laserscan):
   from the ROS system. With each new message this function sends a new
   movement goal based on potential field avoidance and obstacle collision.
   """
-
   # Create the action client that sends messages to move base
-  # client = actionlib.SimpleActionClient("move_base", MoveBaseAction)
+  client = actionlib.SimpleActionClient("move_base", MoveBaseAction)
 
   # Wait for initialization of the action client
-  # client.wait_for_server()
+  client.wait_for_server()
 
   # Initialize the move base goal message to be sent
   goal = MoveBaseGoal()
@@ -253,10 +252,8 @@ def callback(laserscan):
   # Send the goal and sleep while the goal is followed
   # The sleep prevents a "stop and go" behavior and instead
   # calculates the vectors as the kart is moving
-  # client.send_goal(goal)
+  client.send_goal(goal)
   time.sleep(UPDATE_RATE)
-
-  pub.publish(goal)
 
 
 """
@@ -265,19 +262,15 @@ laserscan messages it should interrupt and perform the operations
 on the vector field.
 """
 def laserscan_listener():
-    try:
-      rospy.init_node("move_base_sequence", anonymous=True)
-
-      global pub
-      pub = rospy.Publisher('amp_goal_position', MoveBaseGoal, queue_size=10)
-
-      rospy.Subscriber("top/scan", LaserScan, callback, queue_size=1)
-      rospy.spin()
-    except rospy.ROSInterruptException:
-        rospy.loginfo("Navigation Complete.")
+  try:
+    rospy.init_node("move_base_sequence", anonymous=True)
+    rospy.Subscriber("top/scan", LaserScan, callback, queue_size=1)
+    rospy.spin()
+  except rospy.ROSInterruptException:
+      rospy.loginfo("Navigation Complete.")
 
 
 
 if __name__ == "__main__":
-    laserscan_listener()
+  laserscan_listener()
 
