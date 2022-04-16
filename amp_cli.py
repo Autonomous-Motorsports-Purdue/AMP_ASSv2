@@ -89,7 +89,6 @@ def devel(build: bool, display: str):
         if display == 'mesa':
             container = client.containers.run(
                 tag, stdin_open=True, tty=True, auto_remove=True,
-                network_mode='host',
                 name='amp-assv2-scratch',
                 environment={
                     'DISPLAY': os.getenv('DISPLAY'),
@@ -215,7 +214,6 @@ def scratch(build: bool, display: str):
         if display == 'mesa':
             container = client.containers.run(
                 tag, stdin_open=True, tty=True, auto_remove=True,
-                network_mode='host',
                 name='amp-assv2-scratch',
                 environment={
                     'DISPLAY': os.getenv('DISPLAY'),
