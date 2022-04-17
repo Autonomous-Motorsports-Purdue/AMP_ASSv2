@@ -30,15 +30,17 @@ def getKey():
    return key
 
 speed = 0.5
-turn = 0.25
+turn = 4
 
 def vels(speed,turn):
   return "currently:\tspeed %s\tturn %s " % (speed,turn)
 
 if __name__=="__main__":
   settings = termios.tcgetattr(sys.stdin)
-  pub = rospy.Publisher('/vesc/ackermann_cmd_mux/input/teleop', AckermannDriveStamped)
+  pub = rospy.Publisher('/racecar_cmd', AckermannDriveStamped)
   rospy.init_node('keyop')
+  
+  print(banner)
 
   x = 0
   th = 0
@@ -50,11 +52,14 @@ if __name__=="__main__":
        if key in keyBindings.keys():
           x = keyBindings[key][0]
           th = keyBindings[key][1]
+          print("Pressed:", key)
        else:
           x = 0
           th = 0
           if (key == '\x03'):
              break
+             
+       print("forward {} turn {}". format(x, th))
        msg = AckermannDriveStamped();
        msg.header.stamp = rospy.Time.now();
        msg.header.frame_id = "base_link";
@@ -68,7 +73,7 @@ if __name__=="__main__":
        pub.publish(msg)
 
   except:
-    print 'error'
+    print('error')
 
   finally:
     msg = AckermannDriveStamped();
