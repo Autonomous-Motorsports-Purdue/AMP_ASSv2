@@ -3,7 +3,7 @@ import rospy
 import math
 import struct
 from sensor_msgs.msg import PointCloud2
-from geometry_msgs.msg import PoseArray
+from obstacle_filter_msgs.msg import ConeList
         
 class Point:
     def __init__(self, x, y):
@@ -47,7 +47,7 @@ def filter_loop():
     cluster_sqr_radius = rospy.get_param("/obstacle_filter/cluster_radius") ** 2
     cluster_count_min = rospy.get_param("/obstacle_filter/cluster_count_min")
     
-    pub = rospy.Publisher('/obstacle_filter/obstacles', PoseArray, queue_size=10)
+    pub = rospy.Publisher('/obstacle_filter/obstacles', ConeList, queue_size=10)
     rate = rospy.Rate(1) # 1hz
     while not rospy.is_shutdown():
         if obstacle_cloud_dirty:
@@ -75,15 +75,15 @@ def filter_loop():
                     points.remove(removed)
                 if len(cluster.points) >= cluster_count_min:
                     clusters.append(cluster)
-                
-            for cluster in clusters:
-                center_x, center_y = cluster.center
-                rospy.logwarn((center_x, center_y, len(cluster.points)))
-                
+            
+            centers = [cluster.center for cluster in clusters]
+            cones = ConeList()
+            cones.x = [center[0] for center in centers]
+            cones.y = [center[1] for center in centers]
+            
+            pub.publish(cones)
             obstacle_cloud_dirty = False
         
-        # transfer "clusters" into PoseArray called "cones"
-        #pub.publish(cones)
         rate.sleep()
 
 if __name__ == '__main__':
