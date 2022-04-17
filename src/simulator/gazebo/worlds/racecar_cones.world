@@ -46,9 +46,10 @@
     </link>
   </model>
 
+  <!-- interior -->
   <include>
     <uri>model://gazebo/models/cone</uri>
-    <pose>1 0 0 0 0 0</pose>
+    <pose>0 2 0 0 0 0</pose>
     <name>cone_1</name>
   </include>
   <include>
@@ -58,18 +59,166 @@
   </include>
   <include>
     <uri>model://gazebo/models/cone</uri>
-    <pose>3 0 0 0 0 0</pose>
+    <pose>-2 0 0 0 0 0</pose>
     <name>cone_3</name>
   </include>
   <include>
     <uri>model://gazebo/models/cone</uri>
-    <pose>4 0 0 0 0 0</pose>
+    <pose>0 -2 0 0 0 0</pose>
     <name>cone_4</name>
   </include>
+  
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>1.4 1.4 0 0 0 0</pose>
+    <name>cone_2001</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>1.4 -1.4 0 0 0 0</pose>
+    <name>cone_2002</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-1.4 1.4 0 0 0 0</pose>
+    <name>cone_2003</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-1.4 -1.4 0 0 0 0</pose>
+    <name>cone_2004</name>
+  </include>
+  
+  <!-- polar points -->
   <include>
     <uri>model://gazebo/models/cone</uri>
     <pose>5 0 0 0 0 0</pose>
     <name>cone_5</name>
   </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>0 5 0 0 0 0</pose>
+    <name>cone_6</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-5 0 0 0 0 0</pose>
+    <name>cone_7</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>0 -5 0 0 0 0</pose>
+    <name>cone_8</name>
+  </include>
+  
+  
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>1.4 4.7 0 0 0 0</pose>
+    <name>cone_9</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>3.5 3.5 0 0 0 0</pose>
+    <name>cone_10</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>4.8 1.4 0 0 0 0</pose>
+    <name>cone_11</name>
+  </include>
+  
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-1.4 4.7 0 0 0 0</pose>
+    <name>cone_12</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-3.5 3.5 0 0 0 0</pose>
+    <name>cone_13</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-4.8 1.4 0 0 0 0</pose>
+    <name>cone_14</name>
+  </include>
+  
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>1.4 -4.7 0 0 0 0</pose>
+    <name>cone_15</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>3.5 -3.5 0 0 0 0</pose>
+    <name>cone_16</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>4.8 -1.4 0 0 0 0</pose>
+    <name>cone_17</name>
+  </include>
+  
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-1.4 -4.7 0 0 0 0</pose>
+    <name>cone_18</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-3.5 -3.5 0 0 0 0</pose>
+    <name>cone_19</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-4.8 -1.4 0 0 0 0</pose>
+    <name>cone_20</name>
+  </include>
+  
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>2.7 4.1 0 0 0 0</pose>
+    <name>cone_30020</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>2.7 -4.1 0 0 0 0</pose>
+    <name>cone_30021</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-2.7 4.1 0 0 0 0</pose>
+    <name>cone_30022</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-2.7 -4.1 0 0 0 0</pose>
+    <name>cone_30023</name>
+  </include>
+  
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>4.1 2.7 0 0 0 0</pose>
+    <name>cone_30024</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-4.1 2.7 0 0 0 0</pose>
+    <name>cone_30025</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>4.1 -2.7 0 0 0 0</pose>
+    <name>cone_30026</name>
+  </include>
+  <include>
+    <uri>model://gazebo/models/cone</uri>
+    <pose>-4.1 -2.7 0 0 0 0</pose>
+    <name>cone_30027</name>
+  </include>
+  
+  
+  
 </world>
 </sdf>
