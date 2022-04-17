@@ -1,0 +1,11 @@
+# Ranges for cone color filtering (inclusive)
+min_r: 0
+max_r: 255
+min_g: 0
+max_g: 255
+min_b: 0
+max_b: 255
+
+# Point clustering params
+cluster_radius: 0.5
+cluster_count_min: 10

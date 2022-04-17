@@ -12,6 +12,19 @@ class Point:
     
     def sqr_distance(self, other):
         return (self.x - other.x) ** 2 + (self.y - other.y) ** 2
+        
+class Cluster:
+    def __init__(self):
+        self.points = []
+        
+    @property
+    def center(self):
+        center_x = 0
+        center_y = 0
+        for point in self.points:
+            center_x += point.x
+            center_y += point.y
+        return (center_x / len(self.points), center_y / len(self.points))
 
 obstacle_cloud = PointCloud2()
 obstacle_cloud_dirty = False
@@ -23,6 +36,16 @@ def obstacle_cloud_callback(data):
 
 def filter_loop():
     global obstacle_cloud, obstacle_cloud_dirty
+    
+    min_r = rospy.get_param("/obstacle_filter/min_r")
+    max_r = rospy.get_param("/obstacle_filter/max_r")
+    min_g = rospy.get_param("/obstacle_filter/min_g")
+    max_g = rospy.get_param("/obstacle_filter/max_g")
+    min_b = rospy.get_param("/obstacle_filter/min_b")
+    max_b = rospy.get_param("/obstacle_filter/max_b")
+    
+    cluster_sqr_radius = rospy.get_param("/obstacle_filter/cluster_radius") ** 2
+    cluster_count_min = rospy.get_param("/obstacle_filter/cluster_count_min")
     
     pub = rospy.Publisher('/obstacle_filter/obstacles', PoseArray, queue_size=10)
     rate = rospy.Rate(1) # 1hz
@@ -38,17 +61,28 @@ def filter_loop():
                 g = obstacle_cloud.data[start_byte + 17]
                 b = obstacle_cloud.data[start_byte + 18]
                 
-                if (r >= 0 and r <= 255 and
-                    g >= 0 and g <= 255 and
-                    b >= 0 and b <= 255):
+                if (r >= min_r and r <= max_r and
+                    g >= min_g and g <= max_g and
+                    b >= min_b and b <= max_b):
                     points.append(Point(x, y))
             
-            for point in points:
-                rospy.logwarn((point.x, point.y))
+            clusters = []
+            while len(points) > 0:
+                cluster = Cluster()
+                basis = points[0]
+                cluster.points = [point for point in points if point.sqr_distance(basis) <= cluster_sqr_radius]
+                for removed in cluster.points:
+                    points.remove(removed)
+                if len(cluster.points) >= cluster_count_min:
+                    clusters.append(cluster)
+                
+            for cluster in clusters:
+                center_x, center_y = cluster.center
+                rospy.logwarn((center_x, center_y, len(cluster.points)))
+                
             obstacle_cloud_dirty = False
         
-        # cluster obstacle_cloud into PoseArray called "cones"
-        # rospy.logwarn("TODO: obstacle_filter logic")
+        # transfer "clusters" into PoseArray called "cones"
         #pub.publish(cones)
         rate.sleep()
 
