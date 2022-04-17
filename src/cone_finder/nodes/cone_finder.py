@@ -2,6 +2,7 @@
 import rospy
 import math
 import struct
+import colorsys
 from sensor_msgs.msg import PointCloud2
 from amp_msgs.msg import ConeList
 
@@ -38,19 +39,19 @@ def filter_loop():
     global obstacle_cloud, obstacle_cloud_dirty
     
     # Get params for color filtering
-    min_r = rospy.get_param('cone_finder/min_r')
-    max_r = rospy.get_param('cone_finder/max_r')
-    min_g = rospy.get_param('cone_finder/min_g')
-    max_g = rospy.get_param('cone_finder/max_g')
-    min_b = rospy.get_param('cone_finder/min_b')
-    max_b = rospy.get_param('cone_finder/max_b')
+    min_h = rospy.get_param('cone_finder/min_h')
+    max_h = rospy.get_param('cone_finder/max_h')
+    min_s = rospy.get_param('cone_finder/min_s')
+    max_s = rospy.get_param('cone_finder/max_s')
+    min_v = rospy.get_param('cone_finder/min_v')
+    max_v = rospy.get_param('cone_finder/max_v')
     
     # Get params for point clustering
     cluster_sqr_radius = rospy.get_param('cone_finder/cluster_radius') ** 2
     cluster_count_min = rospy.get_param('cone_finder/cluster_count_min')
     
+    rate = rospy.Rate(rospy.get_param('cone_finder/update_rate'))
     pub = rospy.Publisher('cones_found', ConeList, queue_size=10)
-    rate = rospy.Rate(1) # 1hz
     while not rospy.is_shutdown():
         if obstacle_cloud_dirty:
             # Parse PointCloud2 data and only accept points with correct color
@@ -59,15 +60,14 @@ def filter_loop():
                 start_byte = i * obstacle_cloud.point_step
                 x = struct.unpack('<f', obstacle_cloud.data[start_byte + 0:start_byte + 4])[0]
                 y = struct.unpack('<f', obstacle_cloud.data[start_byte + 4:start_byte + 8])[0]
-                r = obstacle_cloud.data[start_byte + 16]
-                g = obstacle_cloud.data[start_byte + 17]
-                b = obstacle_cloud.data[start_byte + 18]
-                
-                if (r >= min_r and r <= max_r and
-                    g >= min_g and g <= max_g and
-                    b >= min_b and b <= max_b):
+                h, s, v = colorsys.rgb_to_hsv(obstacle_cloud.data[start_byte + 18] / float(255), obstacle_cloud.data[start_byte + 17] / float(255), obstacle_cloud.data[start_byte + 16] / float(255))
+
+                if (h >= min_h and h <= max_h and
+                    s >= min_s and s <= max_s and
+                    v >= min_v and v <= max_v):
                     points.append(Point(x, y))
-            
+                    
+
             # Perform very basic clustering to find cone positions
             cones = ConeList()
             while len(points) > 0:

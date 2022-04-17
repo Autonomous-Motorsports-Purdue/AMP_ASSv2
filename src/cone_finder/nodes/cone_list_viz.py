@@ -14,8 +14,8 @@ def conelist_callback(data):
 def viz_loop():
     global cones, cones_dirty
     
+    rate = rospy.Rate(60) # 60hz
     pub = rospy.Publisher('markers', MarkerArray, queue_size=10)
-    rate = rospy.Rate(1) # 1hz
     while not rospy.is_shutdown():
         if cones_dirty:
             markers = MarkerArray()
@@ -25,17 +25,17 @@ def viz_loop():
                 marker.id = i
                 marker.type = marker.CYLINDER
                 marker.action = marker.ADD
-                marker.scale.x = 0.2
-                marker.scale.y = 0.2
-                marker.scale.z = 0.2
+                marker.scale.x = 0.15
+                marker.scale.y = 0.15
+                marker.scale.z = 0.15
                 marker.color.r = 1.0
-                marker.color.g = 0.25
+                marker.color.g = 0.35
                 marker.color.b = 0.0
                 marker.color.a = 1.0
                 marker.pose.orientation.w = 1.0
                 marker.pose.position.x = cones.x[i]
                 marker.pose.position.y = cones.y[i]
-                marker.pose.position.z = 0.1
+                marker.pose.position.z = 0.075
                 markers.markers.append(marker)
             pub.publish(markers)
             
