@@ -52,7 +52,6 @@ if __name__=="__main__":
        if key in keyBindings.keys():
           x = keyBindings[key][0]
           th = keyBindings[key][1]
-          print("Pressed:", key)
        else:
           x = 0
           th = 0

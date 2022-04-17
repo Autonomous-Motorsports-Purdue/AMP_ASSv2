@@ -2,7 +2,7 @@
 <package>
   <name>racecar_gazebo</name>
   <version>0.0.0</version>
-  <description>The racecar_gazebo package</description>
+  <description>The gazebo package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->

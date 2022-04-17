@@ -12,3 +12,6 @@ logs/
 
 # Catkin ignore files
 CATKIN_IGNORE
+
+# gazebo error msgs
+core.*
