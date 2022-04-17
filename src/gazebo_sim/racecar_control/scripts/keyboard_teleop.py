@@ -29,15 +29,15 @@ def getKey():
    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
    return key
 
-speed = 1.0
-turn = 0.5
+speed = 0.5
+turn = 4
 
 def vels(speed,turn):
   return "currently:\tspeed %s\tturn %s " % (speed,turn)
 
 if __name__=="__main__":
   settings = termios.tcgetattr(sys.stdin)
-  pub = rospy.Publisher('/racecar_cmd', AckermannDriveStamped, queue_size=1)
+  pub = rospy.Publisher('/racecar_cmd', AckermannDriveStamped)
   rospy.init_node('keyop')
   
   print(banner)
