@@ -32,7 +32,8 @@
         </node>
     
         <!-- RTABmapviz -->
-        <node name="rtabmapviz" pkg="rtabmap_ros" type="rtabmapviz" output="screen" args="" launch-prefix="">    
+        <arg name="show_viz" default="true" />
+        <node if="$(arg show_viz)" name="rtabmapviz" pkg="rtabmap_ros" type="rtabmapviz" output="screen" args="" launch-prefix="">
             <remap from="rgb/image"         to="$(arg rgb_topic)"/>
             <remap from="depth/image"       to="$(arg depth_topic)"/>
             <remap from="rgb/camera_info"   to="$(arg camera_info_topic)"/>
