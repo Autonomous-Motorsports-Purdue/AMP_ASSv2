@@ -61,7 +61,8 @@
         </node>
 
         <!-- Rviz -->
-        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find zed_host)/rviz/zed_preview.rviz" output="screen" />
+        <arg name="show_viz" default="true" />
+        <node if="$(arg show_viz)" name="rviz" pkg="rviz" type="rviz" args="-d $(find zed_host)/rviz/zed_preview.rviz" output="screen" />
     </group>
 
 </launch>
