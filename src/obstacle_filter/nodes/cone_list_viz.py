@@ -20,23 +20,23 @@ def viz_loop():
         if cones_dirty:
             markers = MarkerArray()
             for i in range(len(cones.x)):
-            	marker = Marker()
-            	marker.header.frame_id = "map"
-            	marker.id = i
-            	marker.type = marker.CYLINDER
-            	marker.action = marker.ADD
-            	marker.scale.x = 0.2
-            	marker.scale.y = 0.2
-            	marker.scale.z = 0.2
-            	marker.color.r = 1.0
-            	marker.color.g = 0.25
-            	marker.color.b = 0.0
-            	marker.color.a = 1.0
-            	marker.pose.orientation.w = 1.0
-            	marker.pose.position.x = cones.x[i]
-            	marker.pose.position.y = cones.y[i]
-            	marker.pose.position.z = 0.1
-            	markers.markers.append(marker)
+                marker = Marker()
+                marker.header.frame_id = "map"
+                marker.id = i
+                marker.type = marker.CYLINDER
+                marker.action = marker.ADD
+                marker.scale.x = 0.2
+                marker.scale.y = 0.2
+                marker.scale.z = 0.2
+                marker.color.r = 1.0
+                marker.color.g = 0.25
+                marker.color.b = 0.0
+                marker.color.a = 1.0
+                marker.pose.orientation.w = 1.0
+                marker.pose.position.x = cones.x[i]
+                marker.pose.position.y = cones.y[i]
+                marker.pose.position.z = 0.1
+                markers.markers.append(marker)
             pub.publish(markers)
             
             cones_dirty = False
