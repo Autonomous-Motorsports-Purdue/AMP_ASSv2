@@ -38,18 +38,18 @@ def filter_loop():
     global obstacle_cloud, obstacle_cloud_dirty
     
     # Get params for color filtering
-    min_r = rospy.get_param("/obstacle_filter/min_r")
-    max_r = rospy.get_param("/obstacle_filter/max_r")
-    min_g = rospy.get_param("/obstacle_filter/min_g")
-    max_g = rospy.get_param("/obstacle_filter/max_g")
-    min_b = rospy.get_param("/obstacle_filter/min_b")
-    max_b = rospy.get_param("/obstacle_filter/max_b")
+    min_r = rospy.get_param('obstacle_filter/min_r')
+    max_r = rospy.get_param('obstacle_filter/max_r')
+    min_g = rospy.get_param('obstacle_filter/min_g')
+    max_g = rospy.get_param('obstacle_filter/max_g')
+    min_b = rospy.get_param('obstacle_filter/min_b')
+    max_b = rospy.get_param('obstacle_filter/max_b')
     
     # Get params for point clustering
-    cluster_sqr_radius = rospy.get_param("/obstacle_filter/cluster_radius") ** 2
-    cluster_count_min = rospy.get_param("/obstacle_filter/cluster_count_min")
+    cluster_sqr_radius = rospy.get_param('obstacle_filter/cluster_radius') ** 2
+    cluster_count_min = rospy.get_param('obstacle_filter/cluster_count_min')
     
-    pub = rospy.Publisher('/obstacle_filter/obstacles', ConeList, queue_size=10)
+    pub = rospy.Publisher('obstacles', ConeList, queue_size=10)
     rate = rospy.Rate(1) # 1hz
     while not rospy.is_shutdown():
         if obstacle_cloud_dirty:
@@ -57,8 +57,8 @@ def filter_loop():
             points = []
             for i in range(obstacle_cloud.width):
                 start_byte = i * obstacle_cloud.point_step
-                x = struct.unpack("<f", obstacle_cloud.data[start_byte + 0:start_byte + 4])[0]
-                y = struct.unpack("<f", obstacle_cloud.data[start_byte + 4:start_byte + 8])[0]
+                x = struct.unpack('<f', obstacle_cloud.data[start_byte + 0:start_byte + 4])[0]
+                y = struct.unpack('<f', obstacle_cloud.data[start_byte + 4:start_byte + 8])[0]
                 r = obstacle_cloud.data[start_byte + 16]
                 g = obstacle_cloud.data[start_byte + 17]
                 b = obstacle_cloud.data[start_byte + 18]
