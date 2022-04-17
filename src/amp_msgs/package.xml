@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>obstacle_filter_msgs</name>
+  <name>amp_msgs</name>
   <version>1.0.0</version>
-  <description>Custom messages for obstacle_filter</description>
+  <description>Custom messages for the AMP_ASSv2 software stack</description>
   
   <maintainer email="root@todo.todo">root</maintainer>
   <license>TODO</license>

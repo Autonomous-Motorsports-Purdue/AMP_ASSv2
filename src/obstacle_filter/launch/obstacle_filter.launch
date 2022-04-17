@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-    <group ns="obstacle_filter">
-        <node pkg="obstacle_filter" type="obstacle_filter.py" name="obstacle_filter">
-            <rosparam command="load" file="$(find obstacle_filter)/params/obstacle_filter.yaml" />
-        </node>
-        <node pkg="obstacle_filter" type="cone_list_viz.py" name="cone_list_viz" />
-    </group>
-</launch>

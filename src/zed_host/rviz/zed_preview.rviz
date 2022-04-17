@@ -283,7 +283,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
-      Marker Topic: /obstacle_filter/markers
+      Marker Topic: /cone_finder/markers
       Name: Cones
       Namespaces:
         {}

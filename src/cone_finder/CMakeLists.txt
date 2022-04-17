@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(obstacle_filter)
+project(cone_finder)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -156,7 +156,7 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  nodes/obstacle_filter.py
+  nodes/cone_finder.py
   nodes/cone_list_viz.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

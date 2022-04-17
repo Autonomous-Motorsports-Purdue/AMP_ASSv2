@@ -3,7 +3,7 @@ import rospy
 import math
 import struct
 from sensor_msgs.msg import PointCloud2
-from obstacle_filter_msgs.msg import ConeList
+from amp_msgs.msg import ConeList
 
 class Point:
     def __init__(self, x, y):
@@ -38,18 +38,18 @@ def filter_loop():
     global obstacle_cloud, obstacle_cloud_dirty
     
     # Get params for color filtering
-    min_r = rospy.get_param('obstacle_filter/min_r')
-    max_r = rospy.get_param('obstacle_filter/max_r')
-    min_g = rospy.get_param('obstacle_filter/min_g')
-    max_g = rospy.get_param('obstacle_filter/max_g')
-    min_b = rospy.get_param('obstacle_filter/min_b')
-    max_b = rospy.get_param('obstacle_filter/max_b')
+    min_r = rospy.get_param('cone_finder/min_r')
+    max_r = rospy.get_param('cone_finder/max_r')
+    min_g = rospy.get_param('cone_finder/min_g')
+    max_g = rospy.get_param('cone_finder/max_g')
+    min_b = rospy.get_param('cone_finder/min_b')
+    max_b = rospy.get_param('cone_finder/max_b')
     
     # Get params for point clustering
-    cluster_sqr_radius = rospy.get_param('obstacle_filter/cluster_radius') ** 2
-    cluster_count_min = rospy.get_param('obstacle_filter/cluster_count_min')
+    cluster_sqr_radius = rospy.get_param('cone_finder/cluster_radius') ** 2
+    cluster_count_min = rospy.get_param('cone_finder/cluster_count_min')
     
-    pub = rospy.Publisher('obstacles', ConeList, queue_size=10)
+    pub = rospy.Publisher('cones_found', ConeList, queue_size=10)
     rate = rospy.Rate(1) # 1hz
     while not rospy.is_shutdown():
         if obstacle_cloud_dirty:
@@ -88,7 +88,7 @@ def filter_loop():
 
 if __name__ == '__main__':
     try:
-        rospy.init_node('obstacle_filter')
+        rospy.init_node('cone_finder')
         rospy.Subscriber('/rtabmap/cloud_obstacles', PointCloud2, obstacle_cloud_callback)
         filter_loop()
     except rospy.ROSInterruptException:

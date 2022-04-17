@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import rospy
 from visualization_msgs.msg import Marker, MarkerArray
-from obstacle_filter_msgs.msg import ConeList
+from amp_msgs.msg import ConeList
 
 cones = ConeList()
 cones_dirty = False
@@ -46,7 +46,7 @@ def viz_loop():
 if __name__ == '__main__':
     try:
         rospy.init_node('cone_list_viz')
-        rospy.Subscriber('obstacles', ConeList, conelist_callback)
+        rospy.Subscriber('cones_found', ConeList, conelist_callback)
         viz_loop()
     except rospy.ROSInterruptException:
         pass
