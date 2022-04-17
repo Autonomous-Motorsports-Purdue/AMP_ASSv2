@@ -117,7 +117,7 @@
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>30.0</updateRate>
-        <cameraName>/camera/zed</cameraName>
+        <cameraName>/camera</cameraName>
         <imageTopicName>rgb/image_rect_color</imageTopicName>
         <cameraInfoTopicName>rgb/camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>
