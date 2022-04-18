@@ -1,10 +1,8 @@
 # Simulator nodes
 This is a gazebo simulation of a racecar in a cone/wall/track environment. Control the racecar through `/racecar_cmd`.
+Run with `roslaunch racecar_gazebo cones.launch`.
 
-Get laser scans from `/scan`. Get rgb image from `/camera/rgb/image_rect_color`
-
-TODO depth
-TODO params for customizing the above topics
+Get laser scans from `/scan`. Get rgb image from `/camera/rgb/image_rect_color`. Get depth from `/camera/depth/image_raw`
 
 ### gazebo
 Contains the models for each scene, most importantly cones.world. 
