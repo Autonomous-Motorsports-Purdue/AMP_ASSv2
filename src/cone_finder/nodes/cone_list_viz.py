@@ -10,10 +10,10 @@ def conelist_callback(data):
     global cones, cones_dirty
     cones = data
     cones_dirty = True
-    
+
 def viz_loop():
     global cones, cones_dirty
-    
+
     rate = rospy.Rate(60) # 60hz
     pub = rospy.Publisher('markers', MarkerArray, queue_size=10)
     while not rospy.is_shutdown():
@@ -38,9 +38,9 @@ def viz_loop():
                 marker.pose.position.z = 0.075
                 markers.markers.append(marker)
             pub.publish(markers)
-            
+
             cones_dirty = False
-        
+
         rate.sleep()
 
 if __name__ == '__main__':

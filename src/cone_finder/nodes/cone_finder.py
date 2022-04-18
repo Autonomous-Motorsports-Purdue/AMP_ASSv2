@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-import rospy
-import math
 import struct
 import colorsys
+import rospy
 from sensor_msgs.msg import PointCloud2
 from amp_msgs.msg import ConeList
 
@@ -10,14 +9,14 @@ class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-    
+
     def sqr_distance(self, other):
         return (self.x - other.x) ** 2 + (self.y - other.y) ** 2
-        
+
 class Cluster:
     def __init__(self):
         self.points = []
-        
+
     @property
     def center(self):
         center_x = 0
@@ -37,7 +36,7 @@ def obstacle_cloud_callback(data):
 
 def filter_loop():
     global obstacle_cloud, obstacle_cloud_dirty
-    
+
     # Get params for color filtering
     min_h = rospy.get_param('cone_finder/min_h')
     max_h = rospy.get_param('cone_finder/max_h')
@@ -45,11 +44,11 @@ def filter_loop():
     max_s = rospy.get_param('cone_finder/max_s')
     min_v = rospy.get_param('cone_finder/min_v')
     max_v = rospy.get_param('cone_finder/max_v')
-    
+
     # Get params for point clustering
     cluster_sqr_radius = rospy.get_param('cone_finder/cluster_radius') ** 2
     cluster_count_min = rospy.get_param('cone_finder/cluster_count_min')
-    
+
     rate = rospy.Rate(rospy.get_param('cone_finder/update_rate'))
     pub = rospy.Publisher('cones_found', ConeList, queue_size=10)
     while not rospy.is_shutdown():
@@ -60,13 +59,15 @@ def filter_loop():
                 start_byte = i * obstacle_cloud.point_step
                 x = struct.unpack('<f', obstacle_cloud.data[start_byte + 0:start_byte + 4])[0]
                 y = struct.unpack('<f', obstacle_cloud.data[start_byte + 4:start_byte + 8])[0]
-                h, s, v = colorsys.rgb_to_hsv(obstacle_cloud.data[start_byte + 18] / float(255), obstacle_cloud.data[start_byte + 17] / float(255), obstacle_cloud.data[start_byte + 16] / float(255))
+                h, s, v = colorsys.rgb_to_hsv(
+                    obstacle_cloud.data[start_byte + 18] / float(255),
+                    obstacle_cloud.data[start_byte + 17] / float(255),
+                    obstacle_cloud.data[start_byte + 16] / float(255))
 
                 if (h >= min_h and h <= max_h and
                     s >= min_s and s <= max_s and
                     v >= min_v and v <= max_v):
                     points.append(Point(x, y))
-                    
 
             # Perform very basic clustering to find cone positions
             cones = ConeList()
@@ -80,10 +81,10 @@ def filter_loop():
                     center = cluster.center
                     cones.x.append(center[0])
                     cones.y.append(center[1])
-            
+
             pub.publish(cones)
             obstacle_cloud_dirty = False
-        
+
         rate.sleep()
 
 if __name__ == '__main__':
