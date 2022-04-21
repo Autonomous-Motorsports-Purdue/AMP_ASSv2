@@ -25,3 +25,17 @@ sudo pip install .
 ```
 
 * Run `amp-cli` to view the available options.
+
+# Formatting
+In order to run the `pre-commit` formatter, install `pre-commit` (via [PyPI](https://pypi.org/project/pre-commit/)) and `clang` (via your distro's package manager) on your Linux Machine and run:
+```
+pre-commit install
+```
+This will make it so that a format check is executed whenever you attempt to commit changes.
+
+In order to pass the formatting check, run the following before every commit:
+```
+pre-commit run -a
+```
+
+The formatter was borrowed from [MoveIt's ROS Repo](https://github.com/ros-planning/moveit2).
