@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
     libgl1-mesa-glx \
     libgl1-mesa-dri \
     mesa-utils \
-    unzip \ 
+    unzip \
     && rm -rf /var/lib/apt/list/* \
 
 ENTRYPOINT ["/ros_entrypoint.sh"]

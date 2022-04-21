@@ -6,16 +6,18 @@ from amp_msgs.msg import ConeList
 cones = ConeList()
 cones_dirty = False
 
+
 def conelist_callback(data):
     global cones, cones_dirty
     cones = data
     cones_dirty = True
 
+
 def viz_loop():
     global cones, cones_dirty
 
-    rate = rospy.Rate(60) # 60hz
-    pub = rospy.Publisher('markers', MarkerArray, queue_size=10)
+    rate = rospy.Rate(60)  # 60hz
+    pub = rospy.Publisher("markers", MarkerArray, queue_size=10)
     while not rospy.is_shutdown():
         if cones_dirty:
             markers = MarkerArray()
@@ -43,10 +45,11 @@ def viz_loop():
 
         rate.sleep()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     try:
-        rospy.init_node('cone_list_viz')
-        rospy.Subscriber('cones_found', ConeList, conelist_callback)
+        rospy.init_node("cone_list_viz")
+        rospy.Subscriber("cones_found", ConeList, conelist_callback)
         viz_loop()
     except rospy.ROSInterruptException:
         pass

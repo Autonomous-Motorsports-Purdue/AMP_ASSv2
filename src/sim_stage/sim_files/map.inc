@@ -12,4 +12,3 @@ define floorplan model
 	fiducial_return 0
 	laser_return 1
 )
-

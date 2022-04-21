@@ -70,5 +70,3 @@ GridGlobal:
     ProbHit:                0.7         # Probability of a hit (value between 0.5 and 1)
     ProbMiss:               0.4         # Probability of a miss (value between 0 and 0.5)
     UpdateError:            0.01        # Graph changed detection error (m). Update map only if poses in new optimized graph have moved more than this value
-
-
