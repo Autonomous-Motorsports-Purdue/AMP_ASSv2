@@ -1,0 +1,14 @@
+# Ranges for cone color filtering in HSV colorspace (0.0 to 1.0)
+min_h: 0.06
+max_h: 0.12
+min_s: 0.7
+max_s: 1.0
+min_v: 0.6
+max_v: 1.0
+
+# Point clustering params
+cluster_radius: 0.5
+cluster_count_min: 10
+
+# How often to check for obstacle pointcloud updates (Hz)
+update_rate: 1
