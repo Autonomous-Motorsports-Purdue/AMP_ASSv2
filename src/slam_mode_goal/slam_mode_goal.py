@@ -24,6 +24,7 @@ import math
 import actionlib
 import numpy as np
 import time
+import sys
 
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from actionlib_msgs.msg import GoalStatus
@@ -261,10 +262,10 @@ This should be the main function running, as it receives
 laserscan messages it should interrupt and perform the operations
 on the vector field.
 """
-def laserscan_listener():
+def laserscan_listener(scan_topic):
   try:
     rospy.init_node("move_base_sequence", anonymous=True)
-    rospy.Subscriber("top/scan", LaserScan, callback, queue_size=1)
+    rospy.Subscriber(scan_topic, LaserScan, callback, queue_size=1)
     rospy.spin()
   except rospy.ROSInterruptException:
       rospy.loginfo("Navigation Complete.")
@@ -272,5 +273,6 @@ def laserscan_listener():
 
 
 if __name__ == "__main__":
-  laserscan_listener()
+  myargv = rospy.myargv(argv=sys.argv)
+  laserscan_listener(myargv[1]) # Pass the scan topic (may want to improve this later)
 
