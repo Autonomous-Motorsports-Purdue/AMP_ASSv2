@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 """This node is respondible for goal setting and sending those goals to the ROS Navigation Stack.
 
 The goal setting algorithm is needed to navigate around the track without a
@@ -18,7 +17,6 @@ from move_base/goal Action Topic).
 For more info see http://wiki.ros.org/move_base#Action_API.
 """
 
-
 import rospy
 import math
 import actionlib
@@ -34,7 +32,6 @@ from geometry_msgs.msg import Vector3
 from nav_msgs.msg import OccupancyGrid
 from sensor_msgs.msg import LaserScan
 from tf.transformations import quaternion_from_euler
-
 
 # Weight constants for calculating the vectors
 K = 0.0005
@@ -77,7 +74,8 @@ def visualize_field(x_vec_arr, y_vec_arr, ranges, theta_arr):
 
     # Iterate through the following arrays and add markers to the marker array
     # message to be sent
-    for r, theta, x_or, y_or in np.nditer([ranges, theta_arr, x_vec_arr, y_vec_arr]):
+    for r, theta, x_or, y_or in np.nditer(
+        [ranges, theta_arr, x_vec_arr, y_vec_arr]):
         # Initialize a marker message
         _marker = Marker()
 
@@ -87,8 +85,8 @@ def visualize_field(x_vec_arr, y_vec_arr, ranges, theta_arr):
         _marker.pose.position.z = 0
 
         _marker.pose.orientation = Quaternion(
-            *(quaternion_from_euler(0, 0, math.atan2(y_or, x_or) + math.pi, "sxyz"))
-        )
+            *(quaternion_from_euler(0, 0,
+                                    math.atan2(y_or, x_or) + math.pi, "sxyz")))
 
         # Populate the scale field of the marker message
         _marker.scale.x = SCALE_FACTOR * x_or
@@ -187,9 +185,9 @@ def weighted_resultant_vector(laserscan):
 
     # Parallel list where each element is the angle corresponding to the
     # laser scan distance at the same index in 'ranges'.
-    theta_arr = np.linspace(
-        start=round(angle_min, 6), stop=round(angle_max, 6), num=len(ranges)
-    )
+    theta_arr = np.linspace(start=round(angle_min, 6),
+                            stop=round(angle_max, 6),
+                            num=len(ranges))
 
     # Iterate through left half of the lazerscans and grab corresponding
     # right lazerscan for each left one.
@@ -254,8 +252,7 @@ def callback(laserscan):
     goal.target_pose.pose.position.x = x_pos
     goal.target_pose.pose.position.y = y_pos
     goal.target_pose.pose.orientation = Quaternion(
-        *(quaternion_from_euler(0, 0, orient, axes="sxyz"))
-    )
+        *(quaternion_from_euler(0, 0, orient, axes="sxyz")))
 
     # Send the goal and sleep while the goal is followed
     # The sleep prevents a "stop and go" behavior and instead
