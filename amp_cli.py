@@ -27,9 +27,10 @@ def cli():
 
 
 @cli.command()
-@click.option(
-    "-b", "--build", is_flag=True, help="Build the frame container, if not up-to-date."
-)
+@click.option("-b",
+              "--build",
+              is_flag=True,
+              help="Build the frame container, if not up-to-date.")
 @click.option(
     "--display",
     default="mesa",
@@ -43,8 +44,7 @@ def devel(build: bool, display: str):
         client = docker.from_env()
     except Exception as exception:
         raise click.ClickException(
-            f"Error: {exception}\nRan into an error, look at the help menu."
-        )
+            f"Error: {exception}\nRan into an error, look at the help menu.")
     cwd = os.getcwd()
     tag = "amp-devel:frame-desktop"
 
@@ -54,8 +54,7 @@ def devel(build: bool, display: str):
             click.style(
                 "Devel only works when executed from the root directory of the AMP_ASSv2 local repo.",
                 fg="red",
-            )
-        )
+            ))
 
     if build:
         subprocess.run(["bash", "-c", "mkdir -p logs"])
@@ -68,9 +67,8 @@ def devel(build: bool, display: str):
                 tag="amp-devel:noetic-desktop",
                 dockerfile=(cwd + "/docker/desktop.Dockerfile"),
             )
-            click.secho(
-                " ---> Finished building amp-devel:noetic-desktop.", fg="yellow"
-            )
+            click.secho(" ---> Finished building amp-devel:noetic-desktop.",
+                        fg="yellow")
         except Exception as exception:
             raise click.ClickException(
                 f"Error: {exception}\nRan into an error, look at the help menu."
@@ -81,8 +79,9 @@ def devel(build: bool, display: str):
         click.echo(f"Step 2/2: Building {tag}.")
         try:
             _, logs = client.images.build(
-                path=cwd, tag=tag, dockerfile=(cwd + "/docker/frame.Dockerfile")
-            )
+                path=cwd,
+                tag=tag,
+                dockerfile=(cwd + "/docker/frame.Dockerfile"))
             click.secho(f" ---> Finished building {tag}.", fg="yellow")
         except Exception as exception:
             raise click.ClickException(
@@ -114,18 +113,15 @@ def devel(build: bool, display: str):
                         "bind": "/tmp/.X11-unix",
                         "mode": "rw",
                     },
-                    cwd
-                    + "/src": {
+                    cwd + "/src": {
                         "bind": "/amp_ws/src",
                         "mode": "rw",
                     },
-                    cwd
-                    + "/amp-devel/build": {
+                    cwd + "/amp-devel/build": {
                         "bind": "/amp_ws/build",
                         "mode": "rw",
                     },
-                    cwd
-                    + "/amp-devel/devel": {
+                    cwd + "/amp-devel/devel": {
                         "bind": "/amp_ws/devel",
                         "mode": "rw",
                     },
@@ -138,29 +134,30 @@ def devel(build: bool, display: str):
             raise click.ClickException("NVidia config WIP")
         # Attach to the container
         click.echo("Use [<Ctrl> + D] to stop and exit the container.")
-        click.secho("Note: Rosdep packages are not installed in devel", fg="yellow")
+        click.secho("Note: Rosdep packages are not installed in devel",
+                    fg="yellow")
+        click.secho('Run "apt update && rosdep install --from-paths src -iry"',
+                    fg="yellow")
         click.secho(
-            'Run "apt update && rosdep install --from-paths src -iry"', fg="yellow"
-        )
-        click.secho(
-            f"Entering container {container.name}:{container.short_id}.", fg="blue"
-        )
+            f"Entering container {container.name}:{container.short_id}.",
+            fg="blue")
         subprocess.run(["bash", "-c", "xhost +"])
         subprocess.run(["bash", "-c", f"docker attach {container.id}"])
         subprocess.run(["bash", "-c", "xhost -"])
         click.secho("Successfully exited and stopped container.", fg="green")
     except docker.errors.ImageNotFound:
         raise click.ClickException(
-            f'Unable to find {tag}, maybe try running with "--build" flag?'
-        )
+            f'Unable to find {tag}, maybe try running with "--build" flag?')
     except Exception as exception:
         raise click.ClickException(
-            f"Error: {exception}\nRan into an error, look at the help menu."
-        )
+            f"Error: {exception}\nRan into an error, look at the help menu.")
 
 
 @cli.command()
-@click.option("-b", "--build", is_flag=True, help="Build the corresponding containers.")
+@click.option("-b",
+              "--build",
+              is_flag=True,
+              help="Build the corresponding containers.")
 @click.option(
     "--display",
     default="mesa",
@@ -175,8 +172,7 @@ def scratch(build: bool, display: str):
         client = docker.from_env()
     except Exception as exception:
         raise click.ClickException(
-            f"Error: {exception}\nRan into an error, look at the help menu."
-        )
+            f"Error: {exception}\nRan into an error, look at the help menu.")
     cwd = os.getcwd()
 
     tag = f"amp-devel:{display}-build"
@@ -190,8 +186,7 @@ def scratch(build: bool, display: str):
                 click.style(
                     "Build only works inside root directory of the AMP_ASSv2 local repository.",
                     fg="red",
-                )
-            )
+                ))
 
         subprocess.run(["bash", "-c", "mkdir -p logs"])
         click.echo("Building containers...")
@@ -203,9 +198,8 @@ def scratch(build: bool, display: str):
                 tag="amp-devel:noetic-desktop",
                 dockerfile=(cwd + "/docker/desktop.Dockerfile"),
             )
-            click.secho(
-                " ---> Finished building amp-devel:noetic-desktop.", fg="yellow"
-            )
+            click.secho(" ---> Finished building amp-devel:noetic-desktop.",
+                        fg="yellow")
         except Exception as exception:
             raise click.ClickException(
                 f"Error: {exception}\nRan into an error, look at the help menu."
@@ -220,7 +214,8 @@ def scratch(build: bool, display: str):
                 tag="amp-devel:frame-desktop",
                 dockerfile=(cwd + "/docker/frame.Dockerfile"),
             )
-            click.secho(" ---> Finished building amp-devel:frame-desktop.", fg="yellow")
+            click.secho(" ---> Finished building amp-devel:frame-desktop.",
+                        fg="yellow")
         except Exception as exception:
             raise click.ClickException(
                 f"Error: {exception}\nRan into an error, look at the help menu."
@@ -230,7 +225,9 @@ def scratch(build: bool, display: str):
 
         click.echo(f"Step 3/3: Building {tag}.")
         try:
-            _, logs = client.images.build(path=cwd, tag=tag, dockerfile=dockerfile)
+            _, logs = client.images.build(path=cwd,
+                                          tag=tag,
+                                          dockerfile=dockerfile)
             click.secho(f" ---> Finished building {tag}.", fg="yellow")
         except Exception as exception:
             raise click.ClickException(
@@ -270,8 +267,8 @@ def scratch(build: bool, display: str):
         # Attach to the container
         click.echo("Use [<Ctrl> + D] to stop and exit the container.")
         click.secho(
-            f"Entering container {container.name}:{container.short_id}.", fg="blue"
-        )
+            f"Entering container {container.name}:{container.short_id}.",
+            fg="blue")
         subprocess.run(["bash", "-c", "xhost +"])
         subprocess.run(["bash", "-c", f"docker attach {container.id}"])
         subprocess.run(["bash", "-c", "xhost -"])
@@ -279,9 +276,7 @@ def scratch(build: bool, display: str):
 
     except docker.errors.ImageNotFound:
         raise click.ClickException(
-            f'Unable to find {tag}, maybe try running with "--build" flag?'
-        )
+            f'Unable to find {tag}, maybe try running with "--build" flag?')
     except Exception as exception:
         raise click.ClickException(
-            f"Error: {exception}\nRan into an error, look at the help menu."
-        )
+            f"Error: {exception}\nRan into an error, look at the help menu.")
