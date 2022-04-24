@@ -1,0 +1,5 @@
+# Occupancy grid construction
+wall_thickness: 1
+
+# How often to check for obstacle pointcloud updates (Hz)
+update_rate: 1

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+    <group ns="occupancy_constructor">
+        <node pkg="occupancy_constructor" type="occupancy_constructor.py" name="occupancy_constructor">
+            <rosparam command="load" file="$(find occupancy_constructor)/params/occupancy_constructor.yaml" />
+        </node>
+    </group>
+</launch>
