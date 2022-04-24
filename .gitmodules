@@ -1,3 +1,6 @@
 [submodule "src/zed-ros-wrapper"]
 	path = src/zed-ros-wrapper
 	url = https://github.com/stereolabs/zed-ros-wrapper.git
+[submodule "src/simulator/aws_track"]
+	path = src/simulator/aws_track
+	url = https://github.com/aws-robotics/aws-robomaker-racetrack-world

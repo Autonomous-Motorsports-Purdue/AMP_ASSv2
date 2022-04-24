@@ -51,7 +51,7 @@
   </link>
 
   <joint name="left_rear_wheel_joint" type="continuous">
-    <origin xyz="0 0.1 0" rpy="1.5708 0 0" />
+    <origin xyz="0 0.30 0" rpy="1.5708 0 0" />
     <parent link="chassis" />
     <child link="left_rear_wheel" />
     <axis xyz="0 0 -1" />
@@ -76,7 +76,7 @@
   </link>
 
   <joint name="right_rear_wheel_joint" type="continuous">
-    <origin xyz="0 -0.1 0" rpy="1.5708 0 0" />
+    <origin xyz="0 -0.30 0" rpy="1.5708 0 0" />
     <parent link="chassis" />
     <child link="right_rear_wheel" />
     <axis xyz="0 0 -1" />
@@ -98,7 +98,7 @@
   </link>
 
   <joint name="left_steering_hinge_joint" type="revolute">
-    <origin xyz="0.325 0.1 0" rpy="0 1.5708 0" />
+    <origin xyz="0.975 0.30 0" rpy="0 1.5708 0" />
     <parent link="chassis" />
     <child link="left_steering_hinge" />
     <axis xyz="-1 0 0" />
@@ -120,7 +120,7 @@
   </link>
 
   <joint name="right_steering_hinge_joint" type="continuous">
-    <origin xyz="0.325 -0.1 0" rpy="0 1.5708 0" />
+    <origin xyz="0.975 -0.30 0" rpy="0 1.5708 0" />
     <parent link="chassis" />
     <child link="right_steering_hinge" />
     <axis xyz="-1 0 0" />
@@ -201,7 +201,7 @@
   </link>
 
   <joint name="hokuyo_joint" type="fixed">
-    <origin xyz="0.265 0.0 0.075" rpy="0 0 0"/>
+    <origin xyz="0.865 0.0 0.70" rpy="0 0 0"/>
     <parent link="chassis" />
     <child link="laser" />
     <axis xyz="0 0 1" />
@@ -211,27 +211,27 @@
   <!-- zed camera -->
   <link name="zed_camera_link">
     <inertial>
-      <mass value="1e-5" />
+      <mass value="5e-5" />
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
     </inertial>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="0.033 0.175 0.030"/>
+        <box size="0.065 0.175 0.030"/>
       </geometry>
     </collision>
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="0.033 0.175 0.030"/>
+        <box size="0.065 0.175 0.030"/>
       </geometry>
       <material name="red"/>
     </visual>
   </link>
 
   <joint name="zed_camera_joint" type="fixed">
-    <origin xyz="0.390 0 0.04" rpy="0 0 0"/>
+    <origin xyz="1.0 0 0.20" rpy="0 0 0"/>
     <parent link="chassis"/>
     <child link="zed_camera_link"/>
     <axis xyz="0 0 1" />
@@ -243,27 +243,27 @@
   <!-- It seems these have to have a non-zero mass to have a camera attached? -->
   <link name="camera_link"><!-- this needs to match the name in zed_wrapper/zed_tf.launch -->
     <inertial>
-      <mass value="1e-5" />
+      <mass value="5e-5" />
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
     </inertial>
   </link>
   <link name="zed_camera_right_link">
     <inertial>
-      <mass value="1e-5" />
+      <mass value="5e-5" />
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
     </inertial>
   </link>
 
   <joint name="zed_camera_left_joint" type="fixed">
-    <origin xyz="0 0.06 0" rpy="0 0 0"/>
+    <origin xyz="0 0.30 0" rpy="0 0 0"/>
     <parent link="zed_camera_link"/>
     <child link="camera_link"/>
     <axis xyz="0 0 1" />
   </joint>
   <joint name="zed_camera_right_joint" type="fixed">
-    <origin xyz="0 -0.06 0" rpy="0 0 0"/>
+    <origin xyz="0 -0.30 0" rpy="0 0 0"/>
     <parent link="zed_camera_link"/>
     <child link="zed_camera_right_link"/>
     <axis xyz="0 0 1" />

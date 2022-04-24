@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="mode" default="day" doc="mode of the track to load, valid options are 'day' or 'night'"/>
+  
+  
+  <include file="$(find racecar_gazebo)/launch/racecar.launch">
+    <arg name="world_name" value="../../aws_track/worlds/racetrack_$(arg mode)"/>
+  </include>
+</launch>

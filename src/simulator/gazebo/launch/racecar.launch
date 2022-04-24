@@ -5,14 +5,19 @@
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find racecar_gazebo)/worlds/$(arg world_name).world"/>
-    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="$(arg gui)"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+    <arg name="verbose" default="true"/>
   </include>
 
   <!-- urdf xml robot description loaded on the Parameter Server, converting the xacro into a proper urdf file-->
   <param name="robot_description" command="$(find xacro)/xacro '$(find racecar_description)/urdf/racecar.xacro'" />
 
   <!-- push robot_description to factory and spawn robot in gazebo -->
-  <node name="racecar_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model racecar -z 0.0" />
+  <node name="racecar_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model racecar -z 1.0 -x 5.50 -y -14" />
 
   <!-- ros_control racecar launch file -->
   <include file="$(find control)/racecar_control.launch" ns="/"/>
