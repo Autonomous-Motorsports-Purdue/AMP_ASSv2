@@ -3,11 +3,11 @@
   <name>zed_host</name>
   <version>1.0.0</version>
   <description>"zed_host" launches all the necessary components to interface with the ZED camera</description>
-  
+
   <maintainer email="root@todo.todo">root</maintainer>
   <license>TODO</license>
 
-  <buildtool_depend>catkin</buildtool_depend>  
+  <buildtool_depend>catkin</buildtool_depend>
 
   <exec_depend>zed_wrapper</exec_depend>
   <exec_depend>rviz</exec_depend>

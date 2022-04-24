@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="camera_name"          default="zed" />
-    
+
     <node pkg="rosbag" type="play" name="rosbag_zed_host_fake" args="--loop $(find zed_host)/bags/zed_fake.bag" />
 
     <group ns="$(arg camera_name)">

@@ -1,7 +1,7 @@
-# All parameters are set to based on values in teb_local_planner_tutorials 
+# All parameters are set to based on values in teb_local_planner_tutorials
 # unless otherwise noted. See http://wiki.ros.org/teb_local_planner for details.
 
-# TODO(Issue 25): Ensure these params work for both simulation and match the 
+# TODO(Issue 25): Ensure these params work for both simulation and match the
 #                 kart's physical params.
 TebLocalPlannerROS:
   odom_topic: "odom"
@@ -26,15 +26,15 @@ TebLocalPlannerROS:
   max_vel_y: 0.0
   # The angular velocity is also bounded by min_turning_radius in case of a
   # carlike robot (r = v / omega).
-  max_vel_theta: 0.3 
+  max_vel_theta: 0.3
   acc_lim_x: 0.5
   acc_lim_theta: 0.5
 
   min_turning_radius: 0.5
   wheelbase: 0.4
-  # Substitute the rotational velocity in the commanded velocity message 
+  # Substitute the rotational velocity in the commanded velocity message
   # (/cmd_vel) by the corresponding steering angle [-pi/2,pi/2].
-  cmd_angle_instead_rotvel: True 
+  cmd_angle_instead_rotvel: True
 
   # footprint used by teb_local_planner_tutorials.
   # Use this for simulation as of now
@@ -56,7 +56,7 @@ TebLocalPlannerROS:
   obstacle_poses_affected: 15
 
   dynamic_obstacle_inflation_dist: 0.6
-  include_dynamic_obstacles: True 
+  include_dynamic_obstacles: True
 
   costmap_converter_plugin: ""
   costmap_converter_spin_thread: True
@@ -115,4 +115,3 @@ TebLocalPlannerROS:
   oscillation_omega_eps: 0.1
   oscillation_recovery_min_duration: 10
   oscillation_filter_duration: 10
-

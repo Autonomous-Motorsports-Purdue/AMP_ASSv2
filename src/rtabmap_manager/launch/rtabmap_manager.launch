@@ -7,7 +7,7 @@
     <arg name="rgb_topic"               default="$(arg depth_cam_node)/rgb/image_rect_color" />
     <arg name="depth_topic"             default="$(arg depth_cam_node)/depth/depth_registered" />
     <arg name="camera_info_topic"       default="$(arg depth_cam_node)/rgb/camera_info" />
-    
+
     <!-- Localization-only mode -->
     <arg name="localization" default="false"/>
     <arg if="$(arg localization)" name="args" default=""/>
@@ -17,7 +17,7 @@
     <group ns="rtabmap">
         <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg args)" launch-prefix="">
             <rosparam command="load" file="$(find rtabmap_manager)/params/rtabmap.yaml" />
-    
+
             <remap from="rgb/image"         to="$(arg rgb_topic)"/>
             <remap from="depth/image"       to="$(arg depth_topic)"/>
             <remap from="rgb/camera_info"   to="$(arg camera_info_topic)"/>
@@ -30,7 +30,7 @@
             <param unless="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="true"/>
             <param name="Mem/InitWMWithAllNodes" type="string" value="$(arg localization)"/>
         </node>
-    
+
         <!-- RTABmapviz -->
         <arg name="show_viz" default="true" />
         <node if="$(arg show_viz)" name="rtabmapviz" pkg="rtabmap_ros" type="rtabmapviz" output="screen" args="" launch-prefix="">
@@ -42,5 +42,5 @@
             <remap from="odom"              to="$(arg odom_topic)"/>
         </node>
     </group>
-    
+
 </launch>

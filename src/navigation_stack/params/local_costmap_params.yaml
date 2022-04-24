@@ -1,7 +1,7 @@
 # All parameters are set to default values unless otherwise noted.
 # See http://wiki.ros.org/costmap_2d for details.
 
-# TODO(Issue 25): Ensure these params work for both simulation and match the 
+# TODO(Issue 25): Ensure these params work for both simulation and match the
 #                 kart's physical params.
 local_costmap:
   global_frame: "map"
@@ -18,4 +18,3 @@ local_costmap:
   plugins:
     - {name: static_layer,   type:   "costmap_2d::StaticLayer"}
     - {name: obstacle_layer, type: "costmap_2d::ObstacleLayer"}
-
