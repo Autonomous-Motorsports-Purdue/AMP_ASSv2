@@ -31,7 +31,7 @@ class Cluster:
         return (center_x / len(self.points), center_y / len(self.points))
 
 
-obstacle_cloud = PointCloud2()
+obstacle_cloud = None
 obstacle_cloud_dirty = False
 
 
@@ -76,8 +76,8 @@ def filter_loop():
                     obstacle_cloud.data[start_byte + 16] / float(255),
                 )
 
-                if (h >= min_h and h <= max_h and s >= min_s and s <= max_s
-                        and v >= min_v and v <= max_v):
+                if (min_h <= h <= max_h and min_s <= s <= max_s and
+                        min_v <= v <= max_v):
                     points.append(Point(x, y))
 
             # Perform very basic clustering to find cone positions

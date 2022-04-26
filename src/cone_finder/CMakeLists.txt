@@ -157,6 +157,7 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
   scripts/cone_finder.py
+  scripts/cone_finder_fake.py
   scripts/cone_list_viz.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
