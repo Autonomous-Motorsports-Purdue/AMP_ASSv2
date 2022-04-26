@@ -18,13 +18,11 @@ class Point:
     def sqr_distance(self, other):
         return (self.x - other.x) ** 2 + (self.y - other.y) ** 2
 
-    def find_nearest(self, points, exclude):
+    def find_nearest(self, points):
         nearest_sqr_distance = 1000000 ** 2
         nearest_point = None
 
         for other in points:
-            if other == self or other == exclude:
-                continue
             sqr_distance = self.sqr_distance(other)
             if sqr_distance < nearest_sqr_distance:
                 nearest_point = other
@@ -45,19 +43,26 @@ def cone_list_callback(data):
     cone_list_dirty = True
 
 
-def traverse_cone_loop(map_min, map_max, cones):
-    current_cone = cones[0]
+def traverse_cone_loop(map_min, map_max, cones, min_loop_cones):
     loop = []
     cones_remaining = cones.copy()
+    first_cone = cones[0]
+    current_cone = first_cone
     while current_cone.next == None:
         loop.append(current_cone)
+        cones_remaining.remove(current_cone)
+
         map_min = (min(current_cone.x, map_min[0]), min(current_cone.y, map_min[1]))
         map_max = (max(current_cone.x, map_max[0]), max(current_cone.y, map_max[1]))
 
-        cones_remaining.remove(current_cone)
-        current_cone.next = current_cone.find_nearest(cones, current_cone.prev)
+        current_cone.next = current_cone.find_nearest(cones_remaining)
         current_cone.next.prev = current_cone
         current_cone = current_cone.next
+
+        # Minimum has been met, allow loop closure
+        if len(loop) == min_loop_cones:
+            cones_remaining.append(first_cone)
+
     return (loop, map_min, map_max, cones_remaining)
 
 
@@ -79,6 +84,7 @@ def constructor_loop():
     global cone_list, cone_list_dirty
 
     # Get params for construction
+    min_loop_cones = rospy.get_param("occupancy_constructor/min_loop_cones")
     grid_resolution = rospy.get_param("occupancy_constructor/grid_resolution")
     grid_padding = rospy.get_param("occupancy_constructor/grid_padding")
     wall_thickness = int(rospy.get_param("occupancy_constructor/wall_thickness") * grid_resolution)
@@ -89,8 +95,8 @@ def constructor_loop():
         if cone_list_dirty:
             map_min = (cone_list[0].x, cone_list[0].y)
             map_max = (cone_list[0].x, cone_list[0].y)
-            loop1, map_min, map_max, cones_remaining = traverse_cone_loop(map_min, map_max, cone_list)
-            loop2, map_min, map_max, cones_remaining = traverse_cone_loop(map_min, map_max, cones_remaining)
+            loop1, map_min, map_max, cones_remaining = traverse_cone_loop(map_min, map_max, cone_list, min_loop_cones)
+            loop2, map_min, map_max, cones_remaining = traverse_cone_loop(map_min, map_max, cones_remaining, min_loop_cones)
 
             # Pad the map bounds by 1 meter
             map_min = (map_min[0] - grid_padding, map_min[1] - grid_padding)
