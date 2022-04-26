@@ -7,10 +7,11 @@ from dtmessage.msg import simple_dist
 
 from numpy import inf
 
+
 class worker:
 
     def __init__(self):
-        rospy.Subscriber('/scan',LaserScan,self.callback_scan)
+        rospy.Subscriber('/scan', LaserScan, self.callback_scan)
 
         # -- "Different topics with float32" --
         #self.pubLeftDist = rospy.Publisher('/readlidar/left_dist', Float32,queue_size=10)
@@ -19,23 +20,23 @@ class worker:
         # -- "Different topics with float32" --
 
         # -- "Different topics with custom msg" --
-        self.pub = rospy.Publisher('/readlidar',simple_dist,queue_size=10)
+        self.pub = rospy.Publisher('/readlidar', simple_dist, queue_size=10)
         # -- "Different topics with custom msg" --
 
         print("racecar_readlidar is running")
         rospy.spin()
 
-    def callback_scan(self,data):
+    def callback_scan(self, data):
         left = min(data.ranges[90:150])
         center = min(data.ranges[150:230])
         right = min(data.ranges[230:270])
 
-        if(left == inf):
-            left = 18;
-        if(center == inf):
-            center = 18;
-        if(right == inf):
-            right = 18;
+        if (left == inf):
+            left = 18
+        if (center == inf):
+            center = 18
+        if (right == inf):
+            right = 18
 
         # -- "Different topics with float32" --
         #self.pubLeftDist.publish(left)
@@ -54,6 +55,7 @@ class worker:
 
 if __name__ == '__main__':
     try:
-        rospy.init_node('racecar_readlidar',anonymous=True)
+        rospy.init_node('racecar_readlidar', anonymous=True)
         w = worker()
-    except rospy.ROSInterruptException: pass
+    except rospy.ROSInterruptException:
+        pass

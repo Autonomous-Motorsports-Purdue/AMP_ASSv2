@@ -16,7 +16,7 @@
 
   <!-- ros_control racecar launch file -->
   <include file="$(find control)/racecar_control.launch" ns="/"/>
-  
+
   <!-- Keyboard controls -->
   <node name="keyboard_teleop" pkg="control" type="keyboard_teleop.py" output="screen">
   </node>

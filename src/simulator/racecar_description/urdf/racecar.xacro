@@ -176,7 +176,7 @@
     <axis xyz="0 0 -1" />
     <limit effort="10" velocity="100"/>
   </joint>
-  
+
   <xacro:wheel_transmission name="right_front_wheel" />
 
   <!-- Add Hokuyo laser scanner -->

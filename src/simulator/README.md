@@ -5,7 +5,7 @@ Run with `roslaunch racecar_gazebo cones.launch`.
 Get laser scans from `/scan`. Get rgb image from `/camera/rgb/image_rect_color`. Get depth from `/camera/depth/image_raw`
 
 ### gazebo
-Contains the models for each scene, most importantly cones.world. 
+Contains the models for each scene, most importantly cones.world.
 Launching a world will also load all other required features:
 - racecar_description
 - gazebo
