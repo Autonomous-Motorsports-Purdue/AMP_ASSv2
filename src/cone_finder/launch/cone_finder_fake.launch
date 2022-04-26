@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <group ns="cone_finder">
+        <node pkg="cone_finder" type="cone_finder_fake.py" name="cone_finder">
+            <rosparam command="load" file="$(find cone_finder)/params/cone_finder.yaml" />
+        </node>
+        <node pkg="cone_finder" type="cone_list_viz.py" name="cone_list_viz" />
+    </group>
+</launch>
