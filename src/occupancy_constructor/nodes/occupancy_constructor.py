@@ -1,5 +1,9 @@
 #!/usr/bin/env python
+import math
 import rospy
+import numpy as np
+from PIL import Image
+from PIL import ImageDraw
 from nav_msgs.msg import OccupancyGrid
 from amp_msgs.msg import ConeList
 
@@ -41,38 +45,84 @@ def cone_list_callback(data):
     cone_list_dirty = True
 
 
+def traverse_cone_loop(map_min, map_max, cones):
+    current_cone = cones[0]
+    loop = []
+    cones_remaining = cones.copy()
+    while current_cone.next == None:
+        loop.append(current_cone)
+        map_min = (min(current_cone.x, map_min[0]), min(current_cone.y, map_min[1]))
+        map_max = (max(current_cone.x, map_max[0]), max(current_cone.y, map_max[1]))
+
+        cones_remaining.remove(current_cone)
+        current_cone.next = current_cone.find_nearest(cones, current_cone.prev)
+        current_cone.next.prev = current_cone
+        current_cone = current_cone.next
+    return (loop, map_min, map_max, cones_remaining)
+
+
+def transform_cone_loop(loop, map_min, grid_resolution):
+    # Copy first point to the end, so it closes the loop
+    loop.append(Point(loop[0].x, loop[0].y))
+    loop_coords = []
+    for point in loop:
+        # Move all points to be relative to map_min
+        point.x -= map_min[0]
+        point.y -= map_min[1]
+        # Transfer scaled coords to a single list
+        loop_coords.append(point.x * grid_resolution)
+        loop_coords.append(point.y * grid_resolution)
+    return loop_coords
+
+
 def constructor_loop():
     global cone_list, cone_list_dirty
 
     # Get params for construction
-    wall_thickness = rospy.get_param("occupancy_constructor/wall_thickness")
+    grid_resolution = rospy.get_param("occupancy_constructor/grid_resolution")
+    grid_padding = rospy.get_param("occupancy_constructor/grid_padding")
+    wall_thickness = int(rospy.get_param("occupancy_constructor/wall_thickness") * grid_resolution)
 
     rate = rospy.Rate(rospy.get_param("occupancy_constructor/update_rate"))
     pub = rospy.Publisher("/map", OccupancyGrid, queue_size=10)
     while not rospy.is_shutdown():
         if cone_list_dirty:
-            # Traverse loop of cones, keeping track of which haven't been traversed
-            cones_remaining = cone_list.copy()
-            current_cone = cone_list[0]
-            loop1_start = current_cone
-            while current_cone.next == None:
-                cones_remaining.remove(current_cone)
-                current_cone.next = current_cone.find_nearest(cone_list, current_cone.prev)
-                current_cone.next.prev = current_cone
-                current_cone = current_cone.next
-                rospy.logwarn(("loop1: ", current_cone.x, current_cone.y))
+            map_min = (cone_list[0].x, cone_list[0].y)
+            map_max = (cone_list[0].x, cone_list[0].y)
+            loop1, map_min, map_max, cones_remaining = traverse_cone_loop(map_min, map_max, cone_list)
+            loop2, map_min, map_max, cones_remaining = traverse_cone_loop(map_min, map_max, cones_remaining)
 
-            # Traverse loop again, this time excluding cones included in the first loop
-            current_cone = cones_remaining[0]
-            loop2_start = current_cone
-            while current_cone.next == None:
-                current_cone.next = current_cone.find_nearest(cones_remaining, current_cone.prev)
-                current_cone.next.prev = current_cone
-                current_cone = current_cone.next
-                rospy.logwarn(("loop2: ", current_cone.x, current_cone.y))
+            # Pad the map bounds by 1 meter
+            map_min = (map_min[0] - grid_padding, map_min[1] - grid_padding)
+            map_max = (map_max[0] + grid_padding, map_max[1] + grid_padding)
+            map_size = (map_max[0] - map_min[0], map_max[1] - map_min[0])
 
-            # Create OccupancyGrid and draw both cone loops with loop1_start and loop2_start
-            #pub.publish(map)
+            loop1_coords = transform_cone_loop(loop1, map_min, grid_resolution)
+            loop2_coords = transform_cone_loop(loop2, map_min, grid_resolution)
+
+            # Initialize OccupancyGrid
+            grid = OccupancyGrid()
+            grid.header.seq = 0
+            grid.header.frame_id = "map"
+            grid.info.resolution = 1 / grid_resolution
+            grid.info.width = math.ceil(map_size[0] * grid_resolution)
+            grid.info.height = math.ceil(map_size[1] * grid_resolution)
+            grid.info.origin.position.x = map_min[0]
+            grid.info.origin.position.y = map_min[1]
+            grid.info.origin.position.z = 0
+            grid.info.origin.orientation.x = 0
+            grid.info.origin.orientation.y = 0
+            grid.info.origin.orientation.z = 0
+            grid.info.origin.orientation.w = 1
+
+            # Draw both loops onto an image, then transfer to OccupancyGrid
+            img = Image.new("L", (grid.info.width, grid.info.height), 0)  
+            draw = ImageDraw.Draw(img)
+            draw.line(loop1_coords, fill=100, width=wall_thickness)
+            draw.line(loop2_coords, fill=100, width=wall_thickness)
+            grid.data = list(img.getdata())
+
+            pub.publish(grid)
             cone_list_dirty = False
 
         rate.sleep()

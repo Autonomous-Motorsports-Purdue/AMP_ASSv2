@@ -1,5 +1,7 @@
 # Occupancy grid construction
-wall_thickness: 1
+grid_resolution: 20 # cells per meter
+grid_padding: 1 # (meters)
+wall_thickness: 0.2 # (meters)
 
 # How often to check for obstacle pointcloud updates (Hz)
 update_rate: 1
