@@ -13,7 +13,7 @@ class Point:
         self.y = y
 
     def sqr_distance(self, other):
-        return (self.x - other.x)**2 + (self.y - other.y)**2
+        return (self.x - other.x) ** 2 + (self.y - other.y) ** 2
 
 
 class Cluster:
@@ -53,7 +53,7 @@ def filter_loop():
     max_v = rospy.get_param("cone_finder/max_v")
 
     # Get params for point clustering
-    cluster_sqr_radius = rospy.get_param("cone_finder/cluster_radius")**2
+    cluster_sqr_radius = rospy.get_param("cone_finder/cluster_radius") ** 2
     cluster_count_min = rospy.get_param("cone_finder/cluster_count_min")
 
     rate = rospy.Rate(rospy.get_param("cone_finder/update_rate"))
@@ -64,20 +64,15 @@ def filter_loop():
             points = []
             for i in range(obstacle_cloud.width):
                 start_byte = i * obstacle_cloud.point_step
-                x = struct.unpack(
-                    "<f",
-                    obstacle_cloud.data[start_byte + 0:start_byte + 4])[0]
-                y = struct.unpack(
-                    "<f",
-                    obstacle_cloud.data[start_byte + 4:start_byte + 8])[0]
+                x = struct.unpack("<f", obstacle_cloud.data[start_byte + 0:start_byte + 4])[0]
+                y = struct.unpack("<f", obstacle_cloud.data[start_byte + 4:start_byte + 8])[0]
                 h, s, v = colorsys.rgb_to_hsv(
                     obstacle_cloud.data[start_byte + 18] / float(255),
                     obstacle_cloud.data[start_byte + 17] / float(255),
                     obstacle_cloud.data[start_byte + 16] / float(255),
                 )
 
-                if (min_h <= h <= max_h and min_s <= s <= max_s and
-                        min_v <= v <= max_v):
+                if (min_h <= h <= max_h and min_s <= s <= max_s and min_v <= v <= max_v):
                     points.append(Point(x, y))
 
             # Perform very basic clustering to find cone positions
@@ -86,8 +81,7 @@ def filter_loop():
                 cluster = Cluster()
                 basis = points[0]
                 cluster.points = [
-                    point for point in points
-                    if point.sqr_distance(basis) <= cluster_sqr_radius
+                    point for point in points if point.sqr_distance(basis) <= cluster_sqr_radius
                 ]
                 for removed in cluster.points:
                     points.remove(removed)
@@ -105,8 +99,7 @@ def filter_loop():
 if __name__ == "__main__":
     try:
         rospy.init_node("cone_finder")
-        rospy.Subscriber("/rtabmap/cloud_obstacles", PointCloud2,
-                         obstacle_cloud_callback)
+        rospy.Subscriber("/rtabmap/cloud_obstacles", PointCloud2, obstacle_cloud_callback)
         filter_loop()
     except rospy.ROSInterruptException:
         pass

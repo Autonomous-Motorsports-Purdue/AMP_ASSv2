@@ -74,8 +74,7 @@ def visualize_field(x_vec_arr, y_vec_arr, ranges, theta_arr):
 
     # Iterate through the following arrays and add markers to the marker array
     # message to be sent
-    for r, theta, x_or, y_or in np.nditer(
-        [ranges, theta_arr, x_vec_arr, y_vec_arr]):
+    for r, theta, x_or, y_or in np.nditer([ranges, theta_arr, x_vec_arr, y_vec_arr]):
         # Initialize a marker message
         _marker = Marker()
 
@@ -148,7 +147,7 @@ def verify_vector(laserscan, mov_vec):
     vec_x, vec_y = mov_vec
 
     # Calculate the magnitude and angle of the given vector
-    vec_mag = math.sqrt((vec_x**2) + (vec_y**2))
+    vec_mag = math.sqrt((vec_x ** 2) + (vec_y ** 2))
     vec_theta = math.atan2(vec_y, vec_x)
 
     # Check each range at each angle, to actually test the distance a few
@@ -185,9 +184,7 @@ def weighted_resultant_vector(laserscan):
 
     # Parallel list where each element is the angle corresponding to the
     # laser scan distance at the same index in 'ranges'.
-    theta_arr = np.linspace(start=round(angle_min, 6),
-                            stop=round(angle_max, 6),
-                            num=len(ranges))
+    theta_arr = np.linspace(start=round(angle_min, 6), stop=round(angle_max, 6), num=len(ranges))
 
     # Iterate through left half of the lazerscans and grab corresponding
     # right lazerscan for each left one.
