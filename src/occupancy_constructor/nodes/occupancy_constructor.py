@@ -63,6 +63,7 @@ def traverse_cone_loop(map_min, map_max, cones, min_loop_cones):
         if len(loop) == min_loop_cones:
             cones_remaining.append(first_cone)
 
+    cones_remaining.remove(first_cone)
     return (loop, map_min, map_max, cones_remaining)
 
 
@@ -86,8 +87,8 @@ def constructor_loop():
     # Get params for construction
     min_loop_cones = rospy.get_param("occupancy_constructor/min_loop_cones")
     grid_resolution = rospy.get_param("occupancy_constructor/grid_resolution")
-    grid_padding = rospy.get_param("occupancy_constructor/grid_padding")
     wall_thickness = int(rospy.get_param("occupancy_constructor/wall_thickness") * grid_resolution)
+    grid_padding = rospy.get_param("occupancy_constructor/wall_thickness")
 
     rate = rospy.Rate(rospy.get_param("occupancy_constructor/update_rate"))
     pub = rospy.Publisher("/map", OccupancyGrid, queue_size=10)
@@ -98,10 +99,11 @@ def constructor_loop():
             loop1, map_min, map_max, cones_remaining = traverse_cone_loop(map_min, map_max, cone_list, min_loop_cones)
             loop2, map_min, map_max, cones_remaining = traverse_cone_loop(map_min, map_max, cones_remaining, min_loop_cones)
 
+
             # Pad the map bounds by 1 meter
             map_min = (map_min[0] - grid_padding, map_min[1] - grid_padding)
             map_max = (map_max[0] + grid_padding, map_max[1] + grid_padding)
-            map_size = (map_max[0] - map_min[0], map_max[1] - map_min[0])
+            map_size = (map_max[0] - map_min[0], map_max[1] - map_min[1])
 
             loop1_coords = transform_cone_loop(loop1, map_min, grid_resolution)
             loop2_coords = transform_cone_loop(loop2, map_min, grid_resolution)
