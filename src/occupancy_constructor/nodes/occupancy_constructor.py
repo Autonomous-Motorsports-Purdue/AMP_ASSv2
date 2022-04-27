@@ -9,6 +9,7 @@ from amp_msgs.msg import ConeList
 
 
 class Point:
+
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -96,9 +97,10 @@ def constructor_loop():
         if cone_list_dirty:
             map_min = (cone_list[0].x, cone_list[0].y)
             map_max = (cone_list[0].x, cone_list[0].y)
-            loop1, map_min, map_max, cones_remaining = traverse_cone_loop(map_min, map_max, cone_list, min_loop_cones)
-            loop2, map_min, map_max, cones_remaining = traverse_cone_loop(map_min, map_max, cones_remaining, min_loop_cones)
-
+            loop1, map_min, map_max, cones_remaining = traverse_cone_loop(
+                map_min, map_max, cone_list, min_loop_cones)
+            loop2, map_min, map_max, cones_remaining = traverse_cone_loop(
+                map_min, map_max, cones_remaining, min_loop_cones)
 
             # Pad the map bounds by 1 meter
             map_min = (map_min[0] - grid_padding, map_min[1] - grid_padding)
@@ -124,7 +126,7 @@ def constructor_loop():
             grid.info.origin.orientation.w = 1
 
             # Draw both loops onto an image, then transfer to OccupancyGrid
-            img = Image.new("L", (grid.info.width, grid.info.height), 0)  
+            img = Image.new("L", (grid.info.width, grid.info.height), 0)
             draw = ImageDraw.Draw(img)
             draw.line(loop1_coords, fill=100, width=wall_thickness)
             draw.line(loop2_coords, fill=100, width=wall_thickness)
