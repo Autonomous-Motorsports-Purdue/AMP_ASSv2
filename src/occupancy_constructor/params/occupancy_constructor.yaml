@@ -3,7 +3,6 @@ min_loop_cones: 5
 
 # Occupancy grid construction
 grid_resolution: 20 # cells per meter
-grid_padding: 1 # (meters)
 wall_thickness: 0.2 # (meters)
 
 # How often to check for obstacle pointcloud updates (Hz)
