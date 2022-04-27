@@ -13,7 +13,8 @@ def fake_loop():
 
 
 if __name__ == "__main__":
-    inner_radius = 1;
+    # Generates two concentric rings of cones, clumped in groups of 3
+    """inner_radius = 1;
     inner_count = 8;
     outer_multiplier = 3;
 
@@ -29,7 +30,12 @@ if __name__ == "__main__":
         # inner ring, less dense
         if i % outer_multiplier == 0:
             fake_cones.x.append(math.cos(rad) * inner_radius)
-            fake_cones.y.append(math.sin(rad) * inner_radius)
+            fake_cones.y.append(math.sin(rad) * inner_radius)"""
+
+    # Load premade track data
+    fake_cones = ConeList()
+    fake_cones.x = rospy.get_param("cone_finder/fake_cones_x")
+    fake_cones.y = rospy.get_param("cone_finder/fake_cones_y")
 
     try:
         rospy.init_node("cone_finder")
