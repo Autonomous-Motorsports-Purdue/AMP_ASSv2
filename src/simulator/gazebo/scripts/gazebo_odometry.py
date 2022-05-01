@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 '''
 This script makes Gazebo less fail by translating gazebo status messages to odometry data.
 Since Gazebo also publishes data faster than normal odom data, this script caps the update to 20hz.
@@ -15,6 +14,7 @@ import numpy as np
 import math
 import tf2_ros
 
+
 class OdometryNode:
     # Set publishers
     pub_odom = rospy.Publisher('/vesc/odom', Odometry, queue_size=1)
@@ -26,12 +26,13 @@ class OdometryNode:
         self.last_recieved_stamp = None
 
         # Set the update rate
-        rospy.Timer(rospy.Duration(.05), self.timer_callback) # 20hz
+        rospy.Timer(rospy.Duration(.05), self.timer_callback)  # 20hz
 
         self.tf_pub = tf2_ros.TransformBroadcaster()
 
         # Set subscribers
-        rospy.Subscriber('/gazebo/link_states', LinkStates, self.sub_robot_pose_update)
+        rospy.Subscriber('/gazebo/link_states', LinkStates,
+                         self.sub_robot_pose_update)
 
     def sub_robot_pose_update(self, msg):
         # Find the index of the racecar
@@ -58,18 +59,14 @@ class OdometryNode:
         cmd.twist.twist = self.last_received_twist
         self.pub_odom.publish(cmd)
 
-        tf = TransformStamped(
-            header=Header(
-                frame_id=cmd.header.frame_id,
-                stamp=cmd.header.stamp
-            ),
-            child_frame_id=cmd.child_frame_id,
-            transform=Transform(
-                translation=cmd.pose.pose.position,
-                rotation=cmd.pose.pose.orientation
-            )
-        )
+        tf = TransformStamped(header=Header(frame_id=cmd.header.frame_id,
+                                            stamp=cmd.header.stamp),
+                              child_frame_id=cmd.child_frame_id,
+                              transform=Transform(
+                                  translation=cmd.pose.pose.position,
+                                  rotation=cmd.pose.pose.orientation))
         self.tf_pub.sendTransform(tf)
+
 
 # Start the node
 if __name__ == '__main__':

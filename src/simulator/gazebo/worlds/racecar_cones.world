@@ -67,7 +67,7 @@
     <pose>0 -2 0 0 0 0</pose>
     <name>cone_4</name>
   </include>
-  
+
   <include>
     <uri>model://gazebo/models/cone</uri>
     <pose>1.4 1.4 0 0 0 0</pose>
@@ -88,7 +88,7 @@
     <pose>-1.4 -1.4 0 0 0 0</pose>
     <name>cone_2004</name>
   </include>
-  
+
   <!-- polar points -->
   <include>
     <uri>model://gazebo/models/cone</uri>
@@ -110,8 +110,8 @@
     <pose>0 -5 0 0 0 0</pose>
     <name>cone_8</name>
   </include>
-  
-  
+
+
   <include>
     <uri>model://gazebo/models/cone</uri>
     <pose>1.4 4.7 0 0 0 0</pose>
@@ -127,7 +127,7 @@
     <pose>4.8 1.4 0 0 0 0</pose>
     <name>cone_11</name>
   </include>
-  
+
   <include>
     <uri>model://gazebo/models/cone</uri>
     <pose>-1.4 4.7 0 0 0 0</pose>
@@ -143,7 +143,7 @@
     <pose>-4.8 1.4 0 0 0 0</pose>
     <name>cone_14</name>
   </include>
-  
+
   <include>
     <uri>model://gazebo/models/cone</uri>
     <pose>1.4 -4.7 0 0 0 0</pose>
@@ -159,7 +159,7 @@
     <pose>4.8 -1.4 0 0 0 0</pose>
     <name>cone_17</name>
   </include>
-  
+
   <include>
     <uri>model://gazebo/models/cone</uri>
     <pose>-1.4 -4.7 0 0 0 0</pose>
@@ -175,7 +175,7 @@
     <pose>-4.8 -1.4 0 0 0 0</pose>
     <name>cone_20</name>
   </include>
-  
+
   <include>
     <uri>model://gazebo/models/cone</uri>
     <pose>2.7 4.1 0 0 0 0</pose>
@@ -196,7 +196,7 @@
     <pose>-2.7 -4.1 0 0 0 0</pose>
     <name>cone_30023</name>
   </include>
-  
+
   <include>
     <uri>model://gazebo/models/cone</uri>
     <pose>4.1 2.7 0 0 0 0</pose>
@@ -217,8 +217,8 @@
     <pose>-4.1 -2.7 0 0 0 0</pose>
     <name>cone_30027</name>
   </include>
-  
-  
-  
+
+
+
 </world>
 </sdf>
