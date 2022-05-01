@@ -1,14 +1,14 @@
-## What is a quick description of the change?
+## Short description
 
-## Is this fixing an issue?
+## Issue closed (if applicable)
 
-## Were any issues created as a result of this change?
+## New issues created by PR
 
-## Are there more details that are relevant?
+## Relevant details
 
-## Check lists (check x in [ ] of list items)
-For each of these items, please refer to the [software style guide](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/wiki/Software-Style-Guide)
-- [ ] Test written/updated and implemented to CI
-- [ ] Logging (where appropriate)
+## Additional details
 
-## Any additional comments?
+## Task checklist
+- [ ] Finished all sub-tasks
+- [ ] Updated Documentation
+- [ ] Tests written/updated and implemented to CI
