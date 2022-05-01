@@ -70,6 +70,8 @@ def devel(build: bool, display: str):
             click.secho(" ---> Finished building amp-devel:noetic-desktop.",
                         fg="yellow")
         except Exception as exception:
+            write_log_to_file("logs/devel-build-desktop.log", logs)
+            click.secho(" ---> Finished saving logs.", fg="red")
             raise click.ClickException(
                 f"Error: {exception}\nRan into an error, look at the help menu."
             )
@@ -84,6 +86,8 @@ def devel(build: bool, display: str):
                 dockerfile=(cwd + "/docker/frame.Dockerfile"))
             click.secho(f" ---> Finished building {tag}.", fg="yellow")
         except Exception as exception:
+            write_log_to_file("logs/devel-build-frame.log", logs)
+            click.secho(" ---> Finished saving logs.", fg="red")
             raise click.ClickException(
                 f"Error: {exception}\nRan into an error, look at the help menu."
             )
@@ -200,6 +204,8 @@ def scratch(build: bool, display: str):
             click.secho(" ---> Finished building amp-devel:noetic-desktop.",
                         fg="yellow")
         except Exception as exception:
+            write_log_to_file("logs/scratch-build-desktop.log", logs)
+            click.secho(" ---> Finished saving logs.", fg="red")
             raise click.ClickException(
                 f"Error: {exception}\nRan into an error, look at the help menu."
             )
@@ -216,6 +222,8 @@ def scratch(build: bool, display: str):
             click.secho(" ---> Finished building amp-devel:frame-desktop.",
                         fg="yellow")
         except Exception as exception:
+            write_log_to_file("logs/scratch-build-frame.log", logs)
+            click.secho(" ---> Finished saving logs.", fg="red")
             raise click.ClickException(
                 f"Error: {exception}\nRan into an error, look at the help menu."
             )
@@ -229,6 +237,8 @@ def scratch(build: bool, display: str):
                                           dockerfile=dockerfile)
             click.secho(f" ---> Finished building {tag}.", fg="yellow")
         except Exception as exception:
+            write_log_to_file(f"logs/scratch-build-{display}.log", logs)
+            click.secho(" ---> Finished saving logs.", fg="red")
             raise click.ClickException(
                 f"Error: {exception}\nRan into an error, look at the help menu."
             )
