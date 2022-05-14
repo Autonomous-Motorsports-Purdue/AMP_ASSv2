@@ -1,9 +1,10 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="AMP-CLI",
     version="0.2",
-    py_modules=["amp_cli"],
+    packages=find_packages(),
+    include_package_data=True,
     install_requires=[
         "click",
         "docker",
