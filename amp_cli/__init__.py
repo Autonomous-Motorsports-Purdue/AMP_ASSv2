@@ -65,7 +65,7 @@ def devel(build: bool, display: str):
             _, logs = client.images.build(
                 path=cwd,
                 tag="amp-devel:noetic-desktop",
-                dockerfile=(cwd + "/docker/desktop.Dockerfile"),
+                dockerfile=(cwd + "/amp_cli/docker/desktop.Dockerfile"),
             )
             click.secho(" ---> Finished building amp-devel:noetic-desktop.",
                         fg="yellow")
@@ -83,7 +83,7 @@ def devel(build: bool, display: str):
             _, logs = client.images.build(
                 path=cwd,
                 tag=tag,
-                dockerfile=(cwd + "/docker/frame.Dockerfile"))
+                dockerfile=(cwd + "/amp_cli/docker/frame.Dockerfile"))
             click.secho(f" ---> Finished building {tag}.", fg="yellow")
         except Exception as exception:
             write_log_to_file("logs/devel-build-frame.log", logs)
@@ -179,7 +179,7 @@ def scratch(build: bool, display: str):
     cwd = os.getcwd()
 
     tag = f"amp-devel:{display}-build"
-    dockerfile = cwd + f"/docker/{display}.Dockerfile"
+    dockerfile = cwd + f"/amp_cli/docker/{display}.Dockerfile"
 
     # Build container
     if build:
@@ -199,7 +199,7 @@ def scratch(build: bool, display: str):
             _, logs = client.images.build(
                 path=cwd,
                 tag="amp-devel:noetic-desktop",
-                dockerfile=(cwd + "/docker/desktop.Dockerfile"),
+                dockerfile=(cwd + "/amp_cli/docker/desktop.Dockerfile"),
             )
             click.secho(" ---> Finished building amp-devel:noetic-desktop.",
                         fg="yellow")
@@ -217,7 +217,7 @@ def scratch(build: bool, display: str):
             _, logs = client.images.build(
                 path=cwd,
                 tag="amp-devel:frame-desktop",
-                dockerfile=(cwd + "/docker/frame.Dockerfile"),
+                dockerfile=(cwd + "/amp_cli/docker/frame.Dockerfile"),
             )
             click.secho(" ---> Finished building amp-devel:frame-desktop.",
                         fg="yellow")
