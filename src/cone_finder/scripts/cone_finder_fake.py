@@ -14,11 +14,11 @@ def fake_loop():
 
 if __name__ == "__main__":
     # Generates two concentric rings of cones, clumped in groups of 3
-    """inner_radius = 1;
-    inner_count = 8;
-    outer_multiplier = 3;
+    inner_radius = 1
+    inner_count = 8
+    outer_multiplier = 3
 
-    fake_cones = ConeList()
+    """fake_cones = ConeList()
     fake_cones.x = []
     fake_cones.y = []
     for i in range(int(inner_count * outer_multiplier)):
