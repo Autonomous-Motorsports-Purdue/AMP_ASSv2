@@ -119,10 +119,6 @@ def constructor_loop():
             grid.info.height = math.ceil(map_size[1] * grid_resolution)
             grid.info.origin.position.x = map_min[0]
             grid.info.origin.position.y = map_min[1]
-            grid.info.origin.position.z = 0
-            grid.info.origin.orientation.x = 0
-            grid.info.origin.orientation.y = 0
-            grid.info.origin.orientation.z = 0
             grid.info.origin.orientation.w = 1
 
             # Draw both loops onto an image, then transfer to OccupancyGrid
