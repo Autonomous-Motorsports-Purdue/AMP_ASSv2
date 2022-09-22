@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-import rospy
 import math
+import os
+import rospy
 from amp_msgs.msg import ConeList
 
 
@@ -13,29 +14,34 @@ def fake_loop():
 
 
 if __name__ == "__main__":
-    # Generates two concentric rings of cones, clumped in groups of 3
-    inner_radius = 1
-    inner_count = 8
-    outer_multiplier = 3
 
-    """fake_cones = ConeList()
-    fake_cones.x = []
-    fake_cones.y = []
-    for i in range(int(inner_count * outer_multiplier)):
-        rad = (i / (inner_count * outer_multiplier)) * math.pi * 2 - (i % 3) * 0.15
-        # outer ring
-        fake_cones.x.append(math.cos(rad) * inner_radius * outer_multiplier)
-        fake_cones.y.append(math.sin(rad) * inner_radius * outer_multiplier)
+    if os.getenv("DEBUG") is not None:
+        # Testing branch
+        # TODO: Find usecases for such a branch and better implement it.
 
-        # inner ring, less dense
-        if i % outer_multiplier == 0:
-            fake_cones.x.append(math.cos(rad) * inner_radius)
-            fake_cones.y.append(math.sin(rad) * inner_radius)"""
+        # Generates two concentric rings of cones, clumped in groups of 3
+        radius = 1
+        count = 8
+        multiplier = 3
 
-    # Load premade track data
-    fake_cones = ConeList()
-    fake_cones.x = rospy.get_param("cone_finder/fake_cones_x")
-    fake_cones.y = rospy.get_param("cone_finder/fake_cones_y")
+        fake_cones = ConeList()
+        fake_cones.x = []
+        fake_cones.y = []
+        for i in range(int(count * multiplier)):
+            rad = (i / (count * multiplier)) * math.pi * 2 - (i % 3) * 0.15
+            # outer ring
+            fake_cones.x.append(math.cos(rad) * radius * multiplier)
+            fake_cones.y.append(math.sin(rad) * radius * multiplier)
+
+            # inner ring, less dense
+            if i % multiplier == 0:
+                fake_cones.x.append(math.cos(rad) * radius)
+                fake_cones.y.append(math.sin(rad) * radius)
+    else:
+        # Load premade track data
+        fake_cones = ConeList()
+        fake_cones.x = rospy.get_param("cone_finder/fake_cones_x")
+        fake_cones.y = rospy.get_param("cone_finder/fake_cones_y")
 
     try:
         rospy.init_node("cone_finder")

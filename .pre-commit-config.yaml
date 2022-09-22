@@ -41,7 +41,6 @@ repos:
     rev: v0.32.0
     hooks:
       - id: yapf
-        args: ['-i', '--style={based_on_style: google, spaces_around_power_operator: true, column_limit: 100}']
 
   - repo: local
     hooks:
