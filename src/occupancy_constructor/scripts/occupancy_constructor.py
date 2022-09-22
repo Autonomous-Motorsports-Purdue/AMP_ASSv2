@@ -17,10 +17,10 @@ class Point:
         self.prev = None
 
     def sqr_distance(self, other):
-        return (self.x - other.x) ** 2 + (self.y - other.y) ** 2
+        return (self.x - other.x)**2 + (self.y - other.y)**2
 
     def find_nearest(self, points):
-        nearest_sqr_distance = 1000000 ** 2
+        nearest_sqr_distance = 1000000**2
         nearest_point = None
 
         for other in points:
@@ -53,8 +53,10 @@ def traverse_cone_loop(map_min, map_max, cones, min_loop_cones):
         loop.append(current_cone)
         cones_remaining.remove(current_cone)
 
-        map_min = (min(current_cone.x, map_min[0]), min(current_cone.y, map_min[1]))
-        map_max = (max(current_cone.x, map_max[0]), max(current_cone.y, map_max[1]))
+        map_min = (min(current_cone.x,
+                       map_min[0]), min(current_cone.y, map_min[1]))
+        map_max = (max(current_cone.x,
+                       map_max[0]), max(current_cone.y, map_max[1]))
 
         current_cone.next = current_cone.find_nearest(cones_remaining)
         current_cone.next.prev = current_cone
@@ -88,7 +90,9 @@ def constructor_loop():
     # Get params for construction
     min_loop_cones = rospy.get_param("occupancy_constructor/min_loop_cones")
     grid_resolution = rospy.get_param("occupancy_constructor/grid_resolution")
-    wall_thickness = int(rospy.get_param("occupancy_constructor/wall_thickness") * grid_resolution)
+    wall_thickness = int(
+        rospy.get_param("occupancy_constructor/wall_thickness") *
+        grid_resolution)
     grid_padding = rospy.get_param("occupancy_constructor/wall_thickness")
 
     rate = rospy.Rate(rospy.get_param("occupancy_constructor/update_rate"))
@@ -137,7 +141,8 @@ def constructor_loop():
 if __name__ == "__main__":
     try:
         rospy.init_node("occupancy_constructor")
-        rospy.Subscriber("/cone_finder/cones_found", ConeList, cone_list_callback)
+        rospy.Subscriber("/cone_finder/cones_found", ConeList,
+                         cone_list_callback)
         constructor_loop()
     except rospy.ROSInterruptException:
         pass

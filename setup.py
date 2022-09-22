@@ -10,6 +10,8 @@ setup(
         "wheel",
     ],
     entry_points={
-        "console_scripts": ["amp-cli = amp_cli:cli",],
+        "console_scripts": [
+            "amp-cli = amp_cli:cli",
+        ],
     },
 )
