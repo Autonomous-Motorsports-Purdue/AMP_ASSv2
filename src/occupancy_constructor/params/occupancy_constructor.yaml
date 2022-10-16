@@ -1,0 +1,9 @@
+# Loop traversal
+min_loop_cones: 5
+
+# Occupancy grid construction
+grid_resolution: 20 # cells per meter
+wall_thickness: 0.2 # (meters)
+
+# How often to check for obstacle pointcloud updates (Hz)
+update_rate: 1

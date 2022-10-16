@@ -3,7 +3,7 @@ import rospy
 from visualization_msgs.msg import Marker, MarkerArray
 from amp_msgs.msg import ConeList
 
-cones = ConeList()
+cones = None
 cones_dirty = False
 
 
