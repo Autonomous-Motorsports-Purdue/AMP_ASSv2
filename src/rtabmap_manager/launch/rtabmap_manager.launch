@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="depth_cam_node"        default="/zed/zed_node" />
+    <arg name="sim_cam_node"          default="/camera" />
 
     <!-- RGB-D related topics -->
     <arg name="odom_topic"              default="$(arg depth_cam_node)/odom" />
@@ -18,6 +19,10 @@
         <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="$(arg args)" launch-prefix="">
             <rosparam command="load" file="$(find rtabmap_manager)/params/rtabmap.yaml" />
     
+            <remap from="$(arg sim_cam_node)/rgb/image_raw"         to="rgb/image"/>
+            <remap from="$(arg sim_cam_node)/depth/image_raw"       to="depth/image"/>
+            <remap from="$(arg sim_cam_node)/rgb/camera_info_raw"   to="rgb/camera_info"/>
+
             <remap from="rgb/image"         to="$(arg rgb_topic)"/>
             <remap from="depth/image"       to="$(arg depth_topic)"/>
             <remap from="rgb/camera_info"   to="$(arg camera_info_topic)"/>
