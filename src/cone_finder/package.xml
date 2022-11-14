@@ -12,6 +12,8 @@
   <build_depend>sensor_msgs</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <build_depend>amp_msgs</build_depend>
+  <build_depend>nodelet</build_depend>
+
   <build_export_depend>rospy</build_export_depend>
   <build_export_depend>sensor_msgs</build_export_depend>
   <build_export_depend>visualization_msgs</build_export_depend>
@@ -20,4 +22,10 @@
   <exec_depend>sensor_msgs</exec_depend>
   <exec_depend>visualization_msgs</exec_depend>
   <exec_depend>amp_msgs</exec_depend>
+  
+  <exec_depend>nodelet</exec_depend>
+  
+  <export>
+    <nodelet plugin="${prefix}/cluster_extractor.xml"/>
+  </export>
 </package>
