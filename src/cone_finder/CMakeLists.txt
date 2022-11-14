@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.2)
 project(cone_finder)
 
 find_package(catkin REQUIRED COMPONENTS
-	pcl_ros
+	pcl_ros nodelet roscpp
 )
 
 find_package(PCL 1.3 REQUIRED)
@@ -10,7 +10,11 @@ include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
 
-catkin_package()
+catkin_package(
+   INCLUDE_DIRS include
+   LIBRARIES nodelet_test
+   CATKIN_DEPENDS nodelet roscpp
+)
 
 include_directories(include
   ${catkin_INCLUDE_DIRS}
@@ -19,6 +23,13 @@ include_directories(include
 add_library(cluster_extractor src/cluster_extractor.cpp)
 add_dependencies(cluster_extractor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(cluster_extractor ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+
+install(TARGETS
+  cluster_extractor
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 #############
 ## Install ##

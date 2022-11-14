@@ -93,8 +93,8 @@
       </rosparam>
     </node> -->
     
-    <node pkg="nodelet" type="nodelet" name="cluster_extraction" output="screen">
-      <remap from="input" to="/extract_cone_indices/output" />
+    <node pkg="nodelet" type="nodelet" name="cone_finder" args="load cone_finder/ClusterExtractor pcl_manager" output="screen">
+      <remap from="~input" to="/extract_cone_indices/output" />
     </node>
     
     
