@@ -1,0 +1,9 @@
+<launch>
+
+    <node pkg="rosbag" type="play" name="player" output="screen" args="--clock --rate 0.3 /home/lilith/LIMO-Velo/xaloc-fast.bag"/>
+    
+    <node pkg="image_transport" type="republish" name="left_decompress" args="compressed in:=/StereoCamNodeletL/image_raw raw out:=/left_image/image_raw" output="screen" />
+
+    <node pkg="image_transport" type="republish" name="right_decompress" args="compressed in:=/StereoCamNodeletR/image_raw raw out:=/right_image/image_raw" output="screen" />
+    
+</launch>

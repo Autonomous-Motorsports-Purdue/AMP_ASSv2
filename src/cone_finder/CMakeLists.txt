@@ -5,7 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
 	pcl_ros nodelet roscpp
 )
 
-find_package(PCL 1.3 REQUIRED)
+find_package(PCL 1.3 REQUIRED COMPONENTS common)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
@@ -42,6 +42,7 @@ install(TARGETS
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
   scripts/cone_finder.py
+  scripts/pointcloud_fix.py
   scripts/cone_list_viz.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

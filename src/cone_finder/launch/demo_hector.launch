@@ -1,0 +1,146 @@
+<!-- -->
+<launch>
+
+  <!-- HECTOR MAPPING VERSION: use this with ROS bag demo_mapping_no_odom.bag generated  -->
+  <!--                         from demo_mapping.bag with:                               -->
+  <!-- rosbag filter demo_mapping.bag demo_mapping_no_odom.bag 'topic != "/tf" or topic == "/tf" and m.transforms[0].header.frame_id != "/odom"' -->
+  <!-- WARNING : Database is automatically deleted on each startup                       -->
+  <!--           See "delete_db_on_start" option below...                                -->
+  
+  <!-- Choose visualization -->
+  <arg name="rviz" default="true" />
+  <arg name="rtabmapviz" default="false" />
+  
+  <!-- Choose hector_slam or icp_odometry for odometry -->
+  <arg name="hector" default="false" />
+
+  <!-- If "hector" above is false, this option feeds wheel odometry to
+       icp_odometry as guess ( to be more robust to corridor-like environments).
+       If so, use original demo_mapping.bag containing wheel odometry! -->
+  <arg name="odom_guess" default="false" />
+
+  <!-- Example with camera or not -->
+  <arg name="camera" default="false" />
+  
+  <!-- Limit lidar range if > 0 (has effect only when hector:=false) -->
+  <arg name="max_range" default="0" />
+  
+  <!-- Point to Plane ICP? (has effect only when hector:=false) -->
+  <arg name="p2n" default="true" />
+  
+  <!-- Use libpointmatcher for ICP? (has effect only when hector:=false) -->
+  <arg name="pm" default="true" />
+
+  <param name="use_sim_time" type="bool" value="True"/>
+  
+  <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint_to_velodyne" 
+    args="0.0 0.0 0.0 0.0 0.0 0.0 /body /velodyne" /> -->
+    
+    <!-- flip it! -->
+   <node pkg="tf2_ros" type="static_transform_publisher" name="odo_to_base_footprint" 
+    args="0.0 0.0 0.0 0.0 0.0 3.141 /base_link /velodyne" /> 
+    
+    <node pkg="tf" type="static_transform_publisher" name="map_limo_velo_output" 
+    args="0.0 0.0 0.0 0.0 0.0 0.0 /body /odom 100" />
+    
+    <!-- <node pkg="tf" type="static_transform_publisher" name="rtabmap_wants" 
+    args="0.0 0.0 0.0 0.0 0.0 0.0 /odom /base_link 100" /> -->
+    
+    <node pkg="tf" type="static_transform_publisher" name="rtabmap_wants" 
+    args="0.0 0.0 0.0 0.0 0.0 0.0 /odom /base_link 100" />
+    
+    <node pkg="tf" type="static_transform_publisher" name="mapp" 
+    args="0.0 0.0 0.0 0.0 0.0 0.0 /map /map2 100" />
+  
+  <rosparam command="load" file="$(find limovelo)/config/xaloc.yaml" />
+    <node pkg="limovelo" type="limovelo" name="limovelo" output="screen" />
+    
+  <node pkg="cone_finder" type="pointcloud_fix.py" name="fix_pc" output="screen" >
+  	<remap from="/input" to="/velodyne_points" />
+  	<remap from="/output" to="/velodyne_points_fixed" />
+  </node>
+  
+  <include file="$(find cone_finder)/launch/cone_segmentation.launch">
+  	<arg name="pointcloud_topic" value="/velodyne_points_fixed" />
+  	<arg name="conecloud_topic" value="/cone_cloud" />
+  	<arg name="use_rviz" value="false" />
+  </include>
+  
+  <include file="$(find cone_finder)/launch/play_limo_bag.launch">
+  </include>
+   
+
+  <group ns="rtabmap">
+    <node if="$(arg camera)" pkg="nodelet" type="nodelet" name="rgbd_sync" args="standalone rtabmap_ros/rgbd_sync" output="screen">
+      <remap from="rgb/image"       to="/data_throttled_image"/>
+      <remap from="depth/image"     to="/data_throttled_image_depth"/>
+      <remap from="rgb/camera_info" to="/data_throttled_camera_info"/>
+      <param name="rgb/image_transport"   type="string" value="compressed"/>
+      <param name="depth/image_transport" type="string" value="compressedDepth"/>
+
+    </node>
+
+    <!-- SLAM -->
+    <!-- args: "delete_db_on_start" and "udebug" -->
+    <node name="rtabmap" pkg="rtabmap_ros" type="rtabmap" output="screen" args="--delete_db_on_start">
+      <param name="frame_id" type="string" value="body"/>
+      <param name="map_frame_id" type="string" value=""/>
+	
+      <param name="subscribe_rgb"   type="bool" value="false"/>
+      <param name="subscribe_depth" type="bool" value="false"/>
+      <param name="subscribe_rgbd"  type="bool" value="$(arg camera)"/>
+      <param name="subscribe_scan"  type="bool" value="false"/>
+      <param name="subscribe_scan_cloud"  type="bool" value="true"/>
+      
+      <param name="visual_odometry"    type="bool" value="false" />
+
+      <param name="approx_sync"           type="bool" value="true" />   
+      
+      <remap from="scan_cloud" to="/velodyne_points_fixed"/>
+
+
+
+      <param name="subscribe_odom_info" type="bool" value="false"/>
+      <remap from="odom"                       to="/limovelo/state" />
+      <!-- <param name="odom_frame_id"            type="string" value="rtabmap_body"/> -->
+      <param name="odom_tf_linear_variance"  type="double" value="0.0005"/>
+      <param name="odom_tf_angular_variance" type="double" value="0.0005"/>
+      
+      <!-- RTAB-Map's parameters -->
+      <param name="Reg/Strategy"       type="string" value="1"/>    <!-- 0=Visual, 1=ICP, 2=Visual+ICP -->
+      <param name="Reg/Force3DoF"      type="string" value="true"/>
+      <param name="RGBD/ProximityBySpace"    type="string" value="true"/>
+      <param name="Icp/CorrespondenceRatio"  type="string" value="0.2"/>
+      <param name="Icp/VoxelSize"            type="string" value="0.05"/>
+      <param name="Icp/RangeMax"             type="string" value="$(arg max_range)"/>
+      <param name="Grid/RangeMax"            type="string" value="$(arg max_range)"/>
+    </node>
+    
+    
+    <!-- Visualisation RTAB-Map -->
+    <node if="$(arg rtabmapviz)" pkg="rtabmap_ros" type="rtabmapviz" name="rtabmapviz" args="-d $(find rtabmap_ros)/launch/config/rgbd_gui.ini" output="screen">
+      <param name="subscribe_rgbd"      type="bool" value="$(arg camera)"/>
+      <param name="subscribe_laserScan" type="bool" value="true"/>
+      <param name="frame_id"            type="string" value="base_footprint"/>
+    
+      <remap from="scan"            to="/lidar_scan"/>
+
+      <!-- As hector doesn't provide compatible covariance in the odometry topic -->
+      <param if="$(arg hector)" name="odom_frame_id" type="string" value="hector_map"/>
+
+      <remap unless="$(arg hector)" from="odom" to="/scanmatch_odom"/>
+      <param unless="$(arg hector)" name="subscribe_odom_info" type="bool" value="true"/>
+    </node>
+  
+  </group>
+  
+  <!-- Visualisation RVIZ -->
+  <node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz" args="-d $(find cone_finder)/lidar_rtabmap.rviz" output="screen"/>
+   <node if="$(arg camera)" pkg="nodelet" type="nodelet" name="points_xyzrgb" args="standalone rtabmap_ros/point_cloud_xyzrgb">
+    <remap from="rgbd_image"      to="/rtabmap/rgbd_image"/>
+    <remap from="cloud"           to="voxel_cloud" />
+
+    <param name="voxel_size" type="double" value="0.01"/>
+  </node>
+
+</launch>

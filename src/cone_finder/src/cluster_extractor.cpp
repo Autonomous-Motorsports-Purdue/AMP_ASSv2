@@ -9,6 +9,7 @@
 #include <tf/transform_broadcaster.h>
 #include <geometry_msgs/PointStamped.h>
 
+#include <pcl/PCLPointCloud2.h>
 #include <pcl/ModelCoefficients.h>
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
@@ -35,19 +36,21 @@ public:
         
         n_ = getPrivateNodeHandle();
         cloud_sub = n_.subscribe("input", 10, &ClusterExtractor::cloudcb, this);
-        cloud_pub = n_.advertise<sensor_msgs::PointCloud2>("/euclidean_clustering/clusters", 1);
+        cloud_pub = n_.advertise<sensor_msgs::PointCloud2>("output", 1);
     }
 
     // this function gets called every time new pcl data comes in
-    void cloudcb(const sensor_msgs::PointCloud2ConstPtr &scan)
+    void cloudcb(const sensor_msgs::PointCloud2::ConstPtr &input)
     {
-        
+     	/* NODELET_INFO(
+	          "[%s::input_indices_callback] PointCloud with %d data points and frame %s on "
+	          "topic %s received.",
+	          getName().c_str(), input->width * input->height,
+	          input->header.frame_id.c_str(), n_.resolveName("input").c_str()); */
+	      
         pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
-        // Convert to pcl
-        pcl::fromROSMsg(*scan, *cloud);
-       
-        NODELET_DEBUG("Begin cluster extraction %d", (int) cloud->size());
-
+	    pcl::fromROSMsg(*(input), *(cloud));
+	
         // create a vector for storing the indices of the clusters
         std::vector<pcl::PointIndices> cluster_indices;
 
@@ -63,37 +66,39 @@ public:
         ec.extract(cluster_indices);
 
 
-	    int number_clusters = (int) cluster_indices.size();
+        int number_clusters = (int) cluster_indices.size();
         NODELET_DEBUG("Number of clusters found: %d", number_clusters);
             
         // We will fill this cloud with centroids
-        pcl::PointCloud<pcl::PointXYZ>::Ptr centroids (new pcl::PointCloud<pcl::PointXYZ>);
-
+        pcl::PointCloud<pcl::PointXYZ> centroids;
+	    pcl::PointCloud<pcl::PointXYZ> curr_cluster;
+	
 	    // Each index represents one cluster
 	    // Iterate through indexes
         for(const auto & indexes : cluster_indices)
         {
             // Convert indexes to points and store in curr_cluster
-            pcl::PointCloud<pcl::PointXYZ>::Ptr curr_cluster (new pcl::PointCloud<pcl::PointXYZ>);
+            curr_cluster.clear();
+            curr_cluster.points.reserve(indexes.indices.size());
             for (const auto & point : indexes.indices)
-                curr_cluster->points.push_back(cloud->points[point]);
+                curr_cluster.points.push_back(cloud->points[point]);
                 
-            curr_cluster->width = curr_cluster->points.size();
-            curr_cluster->height = 1;
-            curr_cluster->is_dense = true;
+            curr_cluster.width = curr_cluster.points.size();
+            curr_cluster.height = 1;
+            curr_cluster.is_dense = true;
 
             // compute centroid
             Eigen::Vector4f centroid;
-            pcl::compute3DCentroid(*curr_cluster, centroid);
+            pcl::compute3DCentroid(curr_cluster, centroid);
             auto centroid_point = pcl::PointXYZ(centroid(0), centroid(1), centroid(2));
-            centroids->points.push_back(centroid_point);
+            centroids.points.push_back(centroid_point);
         }
         
         sensor_msgs::PointCloud2 publish_cloud;
-        pcl::toROSMsg(*centroids.get(), publish_cloud);
-        publish_cloud.header.frame_id = "velodyne";
-        publish_cloud.header.seq = seq++;
-        publish_cloud.header.stamp = scan->header.stamp;
+        pcl::toROSMsg(centroids, publish_cloud);
+        
+        publish_cloud.header.stamp = input->header.stamp;
+        publish_cloud.header.frame_id = input->header.frame_id;
 
         cloud_pub.publish(boost::make_shared<sensor_msgs::PointCloud2>(publish_cloud));
     }

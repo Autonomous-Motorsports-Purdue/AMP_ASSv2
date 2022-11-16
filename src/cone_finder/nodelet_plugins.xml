@@ -1,0 +1,10 @@
+
+<library path="lib/libcluster_extractor">
+  <class name="cone_finder/ClusterExtractor"
+         type="ClusterExtractorNS::ClusterExtractor"
+         base_class_type="nodelet::Nodelet">
+    <description>
+        This nodelet clusters pointclouds
+    </description>
+  </class>
+</library>
