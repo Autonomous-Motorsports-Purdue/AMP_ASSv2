@@ -1,3 +1,6 @@
+# Editor stuff
+.ccls-cache/
+
 # ROS build directories
 build/
 devel/

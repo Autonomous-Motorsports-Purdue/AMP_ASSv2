@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="serial_port" default="/dev/ttyACM0" />
+    <arg name="baud" default="57600" />
+    <node pkg="serial_packet" type="packet_node.py" name="packet_node" />
+    <node pkg="rosserial_python" type="serial_node.py"
+    name="teensy_node">
+        <param name="port" type="string"
+        value="$(arg serial_port)" />
+        <param name="baud" type="int" value="$(arg baud)" />
+    </node>
+    <node pkg="teleop_twist_keyboard"
+    type="teleop_twist_keyboard.py" name="teleop_node" />
+</launch>
