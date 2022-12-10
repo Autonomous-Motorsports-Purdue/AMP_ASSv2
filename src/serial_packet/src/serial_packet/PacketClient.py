@@ -6,7 +6,7 @@ max_speed = 10
 
 
 def get_throttle_params(linear):
-    if linear > 0:
+    if linear >= 0:
         return int(linear * 100), 1
     else:
         return int(-linear * 100), -1
