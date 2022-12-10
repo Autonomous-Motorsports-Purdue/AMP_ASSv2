@@ -7,13 +7,13 @@ max_speed = 10
 
 def get_throttle_params(linear):
     if linear > 0:
-        return int(linear), 0
+        return int(linear * 1000), 1
     else:
-        return 0, int(-linear)
+        return int(-linear * 1000), -1
 
 
 def get_steering_params(angular):
-    return int(angular)
+    return int(angular * 1000 + 3000)
 
 
 class PacketClient(object):
@@ -27,7 +27,7 @@ class PacketClient(object):
 
     def update_packet(self, msg):
         packet = SerialPacket()
-        packet.throttle, _ = get_throttle_params(msg.linear.x)
+        packet.throttle, packet.direction = get_throttle_params(msg.linear.x)
         packet.steering = get_steering_params(msg.angular.z)
 
         self.packet_pub.publish(packet)
