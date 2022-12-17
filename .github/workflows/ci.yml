@@ -22,7 +22,7 @@ jobs:
       MESA_TAG: amp-devel:mesa-desktop
     steps:
       - name: Check Out Repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Disable zed
         run: ./toggle_zed.sh
       - name: Build noetic-desktop
