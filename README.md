@@ -1,7 +1,6 @@
 # AMP Autonomous Software Stack v2
 
-[![AMP_ASSv2 CI](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/ci.yml/badge.svg)](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/ci.yml)
-[![AMP-CLI CI](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/cli.yml/badge.svg)](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/cli.yml)
+[![build checks](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/ci.yaml/badge.svg)](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/actions/workflows/ci.yaml)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/Autonomous-Motorsports-Purdue/AMP_ASSv2/master.svg)](https://results.pre-commit.ci/latest/github/Autonomous-Motorsports-Purdue/AMP_ASSv2/master)
 
 Second iteration of the Autonomous Software Stack (ASS) for the AMP go-kart.

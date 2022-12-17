@@ -1,4 +1,4 @@
-name: AMP_ASSv2 CI
+name: build checks
 
 on:
   workflow_dispatch:
@@ -9,57 +9,17 @@ on:
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
     name: build
     runs-on: ubuntu-latest
-    env:
-      DESKTOP_DOCKER: ./docker/desktop.Dockerfile
-      DESKTOP_TAG: amp-devel:noetic-desktop
-      FRAME_DOCKER: ./docker/frame.Dockerfile
-      FRAME_TAG: amp-devel:frame-desktop
-      MESA_DOCKER: ./docker/mesa.Dockerfile
-      MESA_TAG: amp-devel:mesa-desktop
-    steps:
-      - name: Check Out Repo
-        uses: actions/checkout@v3
-      - name: Disable zed
-        run: ./toggle_zed.sh
-      - name: Build noetic-desktop
-        run: docker build --file $DESKTOP_DOCKER --tag $DESKTOP_TAG .
-      - name: Build frame-desktop
-        run: docker build --file $FRAME_DOCKER --tag $FRAME_TAG .
-      - name: Build mesa-build
-        run: docker build --file $MESA_DOCKER --tag $MESA_TAG .
-
-  build-test:
-    strategy:
-      fail-fast: false
-    name: build-test-replacement
-    runs-on: ubuntu-latest
+    container:
+      image: ros:noetic
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      - name: Setup ROS tooling
-        uses: ros-tooling/setup-ros@v0.3
-      - name: Generate deps.repos file
+      - name: Install dependencies
         run: |
-          rosinstall_generator ALL --rosdistro noetic \
-          --deps-only --deps --upstream-development > /tmp/deps.repos
-      - name: Build package
-        uses: ros-tooling/action-ros-ci@v0.2
-        with:
-          package-name: serial_packet
-          target-ros1-distro: noetic
-          vcs-repo-file-url: /tmp/deps.repos
-
-  build-cli:
-    strategy:
-      fail-fast: false
-    name: build-cli
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out Repo
-        uses: actions/checkout@v3
-      - name: Build amp-cli
-        run: pip install .
+          sudo apt-get update
+          rosdep update
+          DEBIAN_FRONTEND=noninteractive rosdep install --from-paths src -qr --ignore-src --default-yes
+      - name: Build packages
+        run: /opt/ros/noetic/env.sh catkin_make

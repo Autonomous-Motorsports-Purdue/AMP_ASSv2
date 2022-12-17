@@ -188,6 +188,7 @@ catkin_install_python(PROGRAMS
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 install(FILES
   launch/keyboard_control.launch
+  launch/rqt_control.launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 

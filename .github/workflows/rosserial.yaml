@@ -1,0 +1,46 @@
+name: rosserial CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-upload:
+    name: build-and-upload-ros-lib
+    runs-on: ubuntu-latest
+    container:
+      image: ros:noetic
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          rosdep update
+          DEBIAN_FRONTEND=noninteractive rosdep install --from-paths src -qr --ignore-src --default-yes
+      - name: Build packages
+        run: /opt/ros/noetic/env.sh catkin_make
+      - name: Build rosserial_arduino library
+        run: |
+          DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends --quiet --yes ros-noetic-rosserial-arduino git
+          devel/env.sh rosrun rosserial_arduino make_libraries.py dest
+      - name: Checkout ros_lib
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          repository: Autonomous-Motorsports-Purdue/ros_lib
+          path: ros_lib
+      - name: Move changes
+        run: |
+          rm -rf ros_lib/*
+          mv dest/ros_lib/* ros_lib/
+      - name: Commit changes to repo
+        run: |
+          cd ros_lib
+          git config --global user.name alanssitis
+          git config --global user.email AMP-Purdue@users.noreply.github.com
+          git add -A
+          git commit -m "Automated update (${{ github.sha }})"
+          git push
