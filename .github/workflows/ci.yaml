@@ -8,7 +8,6 @@ on:
       - master
 
 jobs:
-
   build:
     strategy:
       fail-fast: false
@@ -39,9 +38,7 @@ jobs:
     name: build-cli
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Check Out Repo
+      - name: Check Out Repo
         uses: actions/checkout@v2
-      -
-        name: Build amp-cli
+      - name: Build amp-cli
         run: pip install .
