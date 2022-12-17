@@ -1,7 +1,9 @@
 ## Description
 
 ## Sub-tasks
+
 - [ ] ...
 
 ## Resources
-* ...
+
+- ...

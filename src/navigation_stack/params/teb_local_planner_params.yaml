@@ -40,7 +40,7 @@ TebLocalPlannerROS:
   # Use this for simulation as of now
   footprint_model:
     type: "polygon"
-    vertices: [[-0.1,-0.125], [0.5,-0.125], [0.5,0.125], [-0.1,0.125]]
+    vertices: [[-0.1, -0.125], [0.5, -0.125], [0.5, 0.125], [-0.1, 0.125]]
 
   ## Goal Tolerance
   xy_goal_tolerance: 0.2
