@@ -8,10 +8,14 @@ if __name__ == "__main__":
     rospy.init_node("serial_node")
     rospy.loginfo("Autonomous Motorsports Purdue ROS Serial Node")
 
+    twist_topic = rospy.get_param("~twist_topic", "/cmd_vel")
+    packet_topic = rospy.get_param("~packet_topic", "/serial_packet")
+
     while not rospy.is_shutdown():
         rospy.loginfo("Running AMP ROS Serial Node")
         try:
-            client = PacketClient()
+            client = PacketClient(twist_topic=twist_topic,
+                                  packet_topic=packet_topic)
             client.run()
         except KeyboardInterrupt:
             break

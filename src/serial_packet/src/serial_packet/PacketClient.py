@@ -18,10 +18,10 @@ def get_steering_params(angular):
 
 class PacketClient(object):
 
-    def __init__(self):
-        self.twist_sub = rospy.Subscriber("/cmd_vel", Twist,
+    def __init__(self, twist_topic="/cmd_vel", packet_topic="/serial_packet"):
+        self.twist_sub = rospy.Subscriber(twist_topic, Twist,
                                           self.update_packet)
-        self.packet_pub = rospy.Publisher("/serial_packet",
+        self.packet_pub = rospy.Publisher(packet_topic,
                                           SerialPacket,
                                           queue_size=1000)
 
