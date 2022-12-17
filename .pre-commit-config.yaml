@@ -43,6 +43,7 @@ repos:
     hooks:
       - id: prettier
         additional_dependencies:
+          - prettier
           - "@prettier/plugin-xml"
 
   - repo: https://github.com/google/yapf
