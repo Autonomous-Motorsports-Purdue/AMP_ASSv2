@@ -27,6 +27,8 @@ repos:
       - id: check-symlinks
         exclude: CMakeLists.txt
       - id: check-toml
+      - id: check-xml
+        files: '.*\.(xml|launch)'
       - id: check-yaml
       - id: debug-statements
       - id: destroyed-symlinks
@@ -34,8 +36,14 @@ repos:
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: mixed-line-ending
-      - id: pretty-format-json
       - id: trailing-whitespace
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: "v2.7.1"
+    hooks:
+      - id: prettier
+        additional_dependencies:
+          - "@prettier/plugin-xml"
 
   - repo: https://github.com/google/yapf
     rev: v0.32.0
@@ -50,11 +58,11 @@ repos:
         entry: clang-format-12
         language: system
         files: \.(c|cc|cxx|cpp|frag|glsl|h|hpp|hxx|ih|ispc|ipp|java|js|m|proto|vert)$
-        args: ['-fallback-style=none', '-i']
+        args: ["-fallback-style=none", "-i"]
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.1.0
     hooks:
       - id: codespell
-        args: ['--write-changes', '--ignore-words=.codespell_words']
+        args: ["--write-changes", "--ignore-words=.codespell_words"]
         exclude: CHANGELOG.rst
