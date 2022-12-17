@@ -8,6 +8,7 @@ on:
       - master
 
 jobs:
+
   build:
     strategy:
       fail-fast: false
@@ -31,3 +32,16 @@ jobs:
         run: docker build --file $FRAME_DOCKER --tag $FRAME_TAG .
       - name: Build mesa-build
         run: docker build --file $MESA_DOCKER --tag $MESA_TAG .
+
+  build-cli:
+    strategy:
+      fail-fast: false
+    name: build-cli
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Check Out Repo
+        uses: actions/checkout@v2
+      -
+        name: Build amp-cli
+        run: pip install .
