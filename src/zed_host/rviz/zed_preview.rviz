@@ -331,8 +331,7 @@ Visualization Manager:
       Enabled: true
       Marker Topic: /cone_finder/markers
       Name: Cones
-      Namespaces:
-        {}
+      Namespaces: {}
       Queue Size: 100
       Value: true
     - Alpha: 0.699999988079071

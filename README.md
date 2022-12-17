@@ -11,6 +11,7 @@ to learn more about this repo and code standards.
 
 The best way to work with the codebase is within a Ubuntu 20.04 VM. To do so,
 clone this repo, install all the dependencies and build the project.
+
 ```bash
 rosdep update
 rosdep install --from-paths src -iry
@@ -20,21 +21,28 @@ catkin_make
 For people unable to work in a Ubuntu 20.04 VM, it is recommended to work on
 the code base within a virtual ROS environment in a docker container. To do so,
 the `amp-cli` will help you set up all you'll need.
-* To build the amp-cli tool, run:
+
+- To build the amp-cli tool, run:
+
 ```
 sudo pip install .
 ```
-* Run `amp-cli` to view the available options.
-Run the `devel` option in order to have a good consistent environment.
+
+- Run `amp-cli` to view the available options.
+  Run the `devel` option in order to have a good consistent environment.
 
 ## Formatting
+
 In order to run the `pre-commit` formatter, install `pre-commit` (via [PyPI](https://pypi.org/project/pre-commit/)) and `clang` (via your distro's package manager) on your Linux Machine and run:
+
 ```
 pre-commit install
 ```
+
 This will make it so that a format check is executed whenever you attempt to commit changes.
 
 In order to pass the formatting check, run the following before every commit:
+
 ```
 pre-commit run -a
 ```

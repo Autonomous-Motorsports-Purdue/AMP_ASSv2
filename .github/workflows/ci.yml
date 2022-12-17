@@ -21,18 +21,13 @@ jobs:
       MESA_DOCKER: ./docker/mesa.Dockerfile
       MESA_TAG: amp-devel:mesa-desktop
     steps:
-      -
-        name: Check Out Repo
+      - name: Check Out Repo
         uses: actions/checkout@v2
-      -
-        name: Disable zed
+      - name: Disable zed
         run: ./toggle_zed.sh
-      -
-        name: Build noetic-desktop
+      - name: Build noetic-desktop
         run: docker build --file $DESKTOP_DOCKER --tag $DESKTOP_TAG .
-      -
-        name: Build frame-desktop
+      - name: Build frame-desktop
         run: docker build --file $FRAME_DOCKER --tag $FRAME_TAG .
-      -
-        name: Build mesa-build
+      - name: Build mesa-build
         run: docker build --file $MESA_DOCKER --tag $MESA_TAG .

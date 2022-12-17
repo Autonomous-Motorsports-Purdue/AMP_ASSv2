@@ -1,13 +1,25 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <launch>
-    <arg name="camera_name"          default="zed" />
+    <arg name="camera_name" default="zed" />
 
-    <node pkg="rosbag" type="play" name="rosbag_zed_host_fake" args="--loop $(find zed_host)/bags/zed_fake.bag" />
+    <node
+    pkg="rosbag"
+    type="play"
+    name="rosbag_zed_host_fake"
+    args="--loop $(find zed_host)/bags/zed_fake.bag"
+  />
 
     <group ns="$(arg camera_name)">
         <!-- Rviz -->
         <arg name="show_viz" default="true" />
-        <node if="$(arg show_viz)" name="rviz" pkg="rviz" type="rviz" args="-d $(find zed_host)/rviz/zed_preview.rviz" output="screen" />
+        <node
+      if="$(arg show_viz)"
+      name="rviz"
+      pkg="rviz"
+      type="rviz"
+      args="-d $(find zed_host)/rviz/zed_preview.rviz"
+      output="screen"
+    />
     </group>
 
 </launch>

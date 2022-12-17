@@ -1,8 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <package format="2">
   <name>zed_host</name>
   <version>1.0.0</version>
-  <description>"zed_host" launches all the necessary components to interface with the ZED camera</description>
+  <description
+  >"zed_host" launches all the necessary components to interface with the ZED camera</description>
 
   <maintainer email="root@todo.todo">root</maintainer>
   <license>TODO</license>

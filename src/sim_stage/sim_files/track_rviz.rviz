@@ -182,8 +182,7 @@ Visualization Manager:
           Enabled: false
           Marker Topic: /move_base/TebLocalPlannerROS/teb_markers
           Name: TebMarker
-          Namespaces:
-            {}
+          Namespaces: {}
           Queue Size: 100
           Value: false
         - Alpha: 1
