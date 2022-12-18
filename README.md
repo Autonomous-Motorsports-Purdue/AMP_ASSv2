@@ -7,29 +7,29 @@ Second iteration of the Autonomous Software Stack (ASS) for the AMP go-kart.
 Go to the [wiki](https://github.com/Autonomous-Motorsports-Purdue/AMP_ASSv2/wiki)
 to learn more about this repo and code standards.
 
+It is dependent on [ROS Noetic](http://wiki.ros.org/noetic/Installation/Ubuntu).
+
 ## Developing
 
-The best way to work with the codebase is within a Ubuntu 20.04 VM. To do so,
-clone this repo, install all the dependencies and build the project.
+The best way to work with the codebase is within a Ubuntu 20.04 environment, be
+it on baremetal or on a VM. To do so, clone this repo and install all the
+dependencies and build the project.
+
+An alternate build system,
+`[colcon](https://colcon.readthedocs.io/en/released/user/installation.html)`
+can also be used.
 
 ```bash
+# Install dependencies
 rosdep update
 rosdep install --from-paths src -iry
+
+# Build the packages
 catkin_make
+
+# If using colcon, use the line below
+# colcon build
 ```
-
-For people unable to work in a Ubuntu 20.04 VM, it is recommended to work on
-the code base within a virtual ROS environment in a docker container. To do so,
-the `amp-cli` will help you set up all you'll need.
-
-- To build the amp-cli tool, run:
-
-```
-sudo pip install .
-```
-
-- Run `amp-cli` to view the available options.
-  Run the `devel` option in order to have a good consistent environment.
 
 ## Formatting
 
