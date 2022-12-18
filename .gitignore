@@ -1,5 +1,6 @@
 # ROS build directories
 build/
+devel/
 install/
 log/
 __pycache__/
