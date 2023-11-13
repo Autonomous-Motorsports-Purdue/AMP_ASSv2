@@ -6,7 +6,7 @@ existing map (during lap 1). This node takes 2D laser scans (/top/scan) then
 constructs a goal message and creates an ActionClient to sends the goal as
 ROS actions to SimpleActionServer on move_base.
 
-Note: /move_base_simple/goal is a non-action topic that move_base subsribes
+Note: /move_base_simple/goal is a non-action topic that move_base subscribes
 to in case users don't want to use the ActionServer but all of our goals
 go through the action server. When looking at an rqt_graph or visualizing
 the connections of nodes, you can think of slam_mode_goal publishing to

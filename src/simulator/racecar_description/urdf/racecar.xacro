@@ -35,7 +35,7 @@
     <child link="chassis_inertia" />
   </joint>
 
-  <!-- Add the left rear wheel with its joints and tranmissions -->
+  <!-- Add the left rear wheel with its joints and transmissions -->
 
   <link name="left_rear_wheel">
     <inertial>
@@ -60,7 +60,7 @@
 
   <xacro:wheel_transmission name="left_rear_wheel" />
 
-  <!-- Add the right rear wheel with its joints and tranmissions -->
+  <!-- Add the right rear wheel with its joints and transmissions -->
 
   <link name="right_rear_wheel">
     <inertial>
@@ -85,7 +85,7 @@
 
   <xacro:wheel_transmission name="right_rear_wheel" />
 
-  <!-- Add the left steering hinge with its joints and tranmissions -->
+  <!-- Add the left steering hinge with its joints and transmissions -->
 
   <link name="left_steering_hinge">
     <inertial>
@@ -107,7 +107,7 @@
 
   <xacro:steering_hinge_transmission name="left_steering_hinge" />
 
-  <!-- Add the right steering hinge with its joints and tranmissions -->
+  <!-- Add the right steering hinge with its joints and transmissions -->
 
   <link name="right_steering_hinge">
     <inertial>
@@ -129,7 +129,7 @@
 
   <xacro:steering_hinge_transmission name="right_steering_hinge" />
 
-  <!-- Add the left front wheel with its joints and tranmissions -->
+  <!-- Add the left front wheel with its joints and transmissions -->
 
   <link name="left_front_wheel">
     <inertial>
@@ -154,7 +154,7 @@
 
   <xacro:wheel_transmission name="left_front_wheel" />
 
-  <!-- Add the left front wheel with its joints and tranmissions -->
+  <!-- Add the left front wheel with its joints and transmissions -->
 
   <link name="right_front_wheel">
     <inertial>
